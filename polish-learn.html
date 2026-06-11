@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Polski — Learn Polish</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --red-light: #E74C3C;
+    --cream: #FAF7F2;
+    --ink: #1A1108;
+    --gold: #C8A84B;
+    --gold-light: #E8D5A3;
+    --sage: #5C7A6A;
+    --sage-light: #8AAF9B;
+    --warm-gray: #8C7B6B;
+    --card-bg: #FFFDF9;
+    --shadow: 0 4px 24px rgba(26,17,8,0.12);
+    --shadow-lg: 0 12px 48px rgba(26,17,8,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREENS ─────────────────────────── */
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  /* ── HOME ────────────────────────────── */
+  #home {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  #home::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192,57,43,0.35) 0%, transparent 70%);
+  }
+  #home::after {
+    content: '';
+    position: absolute;
+    bottom: 60px; left: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,168,75,0.2) 0%, transparent 70%);
+  }
+
+  .home-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 28px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flag-bar {
+    display: flex;
+    gap: 0;
+    width: 64px;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .flag-bar span:first-child { flex: 1; background: #fff; }
+  .flag-bar span:last-child { flex: 1; background: var(--red); }
+
+  .home-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    line-height: 1.05;
+    color: var(--cream);
+    letter-spacing: -1px;
+  }
+  .home-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .home-subtitle {
+    font-size: 15px;
+    color: rgba(250,247,242,0.55);
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+    font-weight: 300;
+  }
+
+  .home-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 32px 0;
+  }
+  .stat-box {
+    background: rgba(250,247,242,0.06);
+    border: 1px solid rgba(250,247,242,0.1);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: rgba(250,247,242,0.45);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .streak-banner {
+    background: linear-gradient(135deg, rgba(200,168,75,0.15), rgba(200,168,75,0.05));
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .streak-icon { font-size: 28px; }
+  .streak-text { font-size: 14px; color: var(--gold-light); }
+  .streak-text strong { display: block; font-size: 16px; color: var(--gold); }
+
+  .btn-primary {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:active { transform: scale(0.97); background: var(--red-light); }
+
+  .btn-secondary {
+    background: rgba(250,247,242,0.08);
+    color: var(--cream);
+    border: 1px solid rgba(250,247,242,0.15);
+    border-radius: 18px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+  .btn-secondary:active { transform: scale(0.97); }
+
+  /* ── DAILY PLAN ──────────────────────── */
+  #daily {
+    background: var(--cream);
+  }
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 52px 24px 16px;
+    background: var(--ink);
+  }
+  .top-bar h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-size: 22px;
+  }
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .xp-badge {
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .day-scroll { flex: 1; overflow-y: auto; padding: 20px 20px 100px; }
+
+  .progress-ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
+  }
+  .progress-ring-label {
+    font-size: 13px;
+    color: var(--warm-gray);
+    margin-top: 12px;
+    text-align: center;
+  }
+  .progress-ring-label strong { color: var(--ink); font-size: 15px; display: block; }
+
+  .day-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    margin: 20px 0 12px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .category-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 18px 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 2px solid transparent;
+  }
+  .category-card.locked { opacity: 0.45; cursor: default; }
+  .category-card.done { border-color: var(--sage); }
+  .category-card:active:not(.locked) { transform: scale(0.98); }
+
+  .cat-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .cat-info { flex: 1; }
+  .cat-name { font-size: 16px; font-weight: 600; }
+  .cat-meta { font-size: 12px; color: var(--warm-gray); margin-top: 2px; }
+  .cat-status { font-size: 20px; }
+
+  .mini-bar {
+    height: 4px;
+    background: rgba(0,0,0,0.07);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .mini-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+
+  /* ── FLASHCARD ───────────────────────── */
+  #flashcard {
+    background: var(--ink);
+    position: relative;
+  }
+
+  .fc-header {
+    padding: 52px 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fc-progress-text {
+    font-size: 14px;
+    color: rgba(250,247,242,0.5);
+  }
+  .fc-progress-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    margin: 0 24px;
+    border-radius: 2px;
+  }
+  .fc-progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .card-arena {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px 0;
+  }
+
+  .flashcard {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 3/2.2;
+    position: relative;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .card-front {
+    background: linear-gradient(145deg, #FFFDF9, #FFF8F0);
+    box-shadow: var(--shadow-lg);
+  }
+  .card-back {
+    background: linear-gradient(145deg, #1E1408, #2A1C10);
+    border: 1px solid rgba(200,168,75,0.3);
+    transform: rotateY(180deg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-category-tag {
+    position: absolute;
+    top: 16px; left: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    color: var(--warm-gray);
+  }
+  .card-back .card-category-tag { color: rgba(200,168,75,0.6); }
+
+  .card-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    color: var(--ink);
+    text-align: center;
+    line-height: 1.1;
+  }
+  .card-back .card-word { color: var(--cream); font-size: 38px; }
+
+  .card-phonetic {
+    font-size: 15px;
+    color: var(--warm-gray);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .card-back .card-phonetic { color: var(--gold-light); }
+
+  .card-translation {
+    font-size: 20px;
+    color: rgba(250,247,242,0.75);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .card-example {
+    font-size: 13px;
+    color: rgba(250,247,242,0.45);
+    margin-top: 14px;
+    text-align: center;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .tap-hint {
+    position: absolute;
+    bottom: 18px;
+    font-size: 12px;
+    color: rgba(200,168,75,0.6);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .sound-btn {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: rgba(200,168,75,0.15);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .sound-btn:active { background: rgba(200,168,75,0.3); }
+
+  .fc-tip {
+    font-size: 13px;
+    color: rgba(250,247,242,0.35);
+    text-align: center;
+    margin-top: 16px;
+    padding: 0 20px;
+    font-style: italic;
+  }
+
+  .fc-actions {
+    padding: 20px 20px 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .rating-btn {
+    border: none;
+    border-radius: 16px;
+    padding: 14px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .rating-btn .rb-icon { font-size: 20px; }
+  .rating-btn:active { transform: scale(0.95); }
+  .btn-hard { background: rgba(192,57,43,0.15); color: #E74C3C; border: 1px solid rgba(192,57,43,0.3); }
+  .btn-ok { background: rgba(200,168,75,0.15); color: var(--gold); border: 1px solid rgba(200,168,75,0.3); }
+  .btn-easy { background: rgba(92,122,106,0.15); color: var(--sage-light); border: 1px solid rgba(92,122,106,0.3); }
+
+  /* ── RESULTS ─────────────────────────── */
+  #results {
+    background: var(--ink);
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px;
+    text-align: center;
+  }
+  .result-star { font-size: 72px; margin-bottom: 16px; }
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .result-sub { font-size: 16px; color: rgba(250,247,242,0.5); margin-bottom: 32px; }
+
+  .result-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 36px;
+  }
+  .rs-box {
+    background: rgba(250,247,242,0.06);
+    border: 1px solid rgba(250,247,242,0.1);
+    border-radius: 16px;
+    padding: 16px 8px;
+  }
+  .rs-num { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--gold); }
+  .rs-label { font-size: 11px; color: rgba(250,247,242,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+
+  .technique-tip {
+    background: rgba(200,168,75,0.08);
+    border: 1px solid rgba(200,168,75,0.2);
+    border-radius: 16px;
+    padding: 18px;
+    text-align: left;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+  .tt-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 6px; }
+  .tt-text { font-size: 14px; color: rgba(250,247,242,0.65); line-height: 1.5; }
+
+  /* ── BROWSE ──────────────────────────── */
+  #browse { background: var(--cream); }
+  .browse-scroll { flex: 1; overflow-y: auto; padding: 12px 20px 100px; }
+
+  .cat-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    margin-bottom: 8px;
+  }
+  .cat-section-icon { font-size: 24px; }
+  .cat-section-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .word-chip {
+    display: inline-flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin: 0 6px 8px 0;
+    box-shadow: 0 2px 8px rgba(26,17,8,0.08);
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+  }
+  .word-chip.known { border-color: var(--sage); }
+  .word-chip.reviewing { border-color: var(--gold); }
+  .wc-pl { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .wc-en { font-size: 12px; color: var(--warm-gray); margin-top: 2px; }
+
+  /* ── NAV ─────────────────────────────── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--ink);
+    border-top: 1px solid rgba(250,247,242,0.08);
+    display: flex;
+    padding: 10px 0 24px;
+    z-index: 100;
+  }
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: rgba(250,247,242,0.35);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    transition: color 0.2s;
+  }
+  .nav-btn.active { color: var(--gold); }
+  .nav-icon { font-size: 22px; }
+
+  /* ── SVG ring ────────────────────────── */
+  .ring-svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: rgba(26,17,8,0.08); stroke-width: 8; }
+  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+
+  /* ── MODALS / OVERLAYS ───────────────── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,17,8,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .overlay.open { display: flex; }
+  .sheet {
+    background: var(--card-bg);
+    border-radius: 28px 28px 0 0;
+    padding: 28px 24px 40px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .sheet-handle {
+    width: 40px; height: 4px;
+    background: rgba(26,17,8,0.15);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+  .sheet-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .sheet-sub { font-size: 14px; color: var(--warm-gray); margin-bottom: 20px; }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(26,17,8,0.06);
+    font-size: 15px;
+  }
+  .detail-row:last-of-type { border-bottom: none; }
+  .detail-label { color: var(--warm-gray); font-size: 13px; }
+
+  .translate-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #4285F4;
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px 18px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  /* animations */
+  @keyframes slideUp {
+    from { transform: translateY(60px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .card-arena { animation: slideUp 0.4s ease; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  .flashcard:not(.flipped) { animation: pulse 3s ease-in-out infinite; }
+  .flashcard.flipped { animation: none; }
+
+  /* xp pop */
+  .xp-pop {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    z-index: 500;
+    opacity: 0;
+    transition: all 0.6s;
+  }
+  .xp-pop.show {
+    opacity: 1;
+    transform: translate(-50%, -120%);
+  }
+
+  /* ── TEST MODE ───────────────────────── */
+  #testscreen {
+    background: #0E1A14;
+    position: relative;
+  }
+  #testscreen::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(92,122,106,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .test-mode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(92,122,106,0.25);
+    border: 1px solid rgba(138,175,155,0.4);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--sage-light);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Test card — English side (front in test mode) */
+  .test-card-front {
+    background: linear-gradient(145deg, #162110, #1E3020);
+    border: 1px solid rgba(92,122,106,0.35);
+    box-shadow: var(--shadow-lg);
+  }
+  .test-card-front .card-word {
+    color: var(--sage-light);
+    font-size: 36px;
+  }
+  .test-card-front .card-category-tag { color: rgba(138,175,155,0.6); }
+  .test-card-front .card-phonetic { color: rgba(138,175,155,0.45); font-size: 13px; }
+
+  /* Test card — Polish reveal side (back in test mode) */
+  .test-card-back {
+    background: linear-gradient(145deg, #FFFDF9, #FFF8F0);
+    transform: rotateY(180deg);
+    box-shadow: var(--shadow-lg);
+  }
+  .test-card-back .card-word { color: var(--ink); font-size: 44px; }
+  .test-card-back .card-category-tag { color: var(--warm-gray); }
+  .test-card-back .card-phonetic { color: var(--warm-gray); }
+  .test-card-back .card-translation { color: var(--warm-gray); font-size: 16px; }
+  .test-card-back .card-example { color: rgba(26,17,8,0.45); }
+  .test-card-back .sound-btn {
+    background: rgba(92,122,106,0.12);
+    border-color: rgba(92,122,106,0.3);
+  }
+  .test-card-back .tap-hint { color: rgba(92,122,106,0.6); }
+
+  /* reveal state — rating buttons appear after flip */
+  .fc-actions.hidden-until-flip { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .fc-actions.revealed { opacity: 1; pointer-events: auto; }
+
+  /* test score pill */
+  .test-score-pill {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(92,122,106,0.15);
+    border: 1px solid rgba(92,122,106,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--sage-light);
+  }
+  .test-score-pill span { font-weight: 700; color: var(--sage-light); }
+
+  /* test results extras */
+  .test-result-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(250,247,242,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 8px 0 20px;
+  }
+  .test-result-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--sage), var(--sage-light));
+    transition: width 0.8s ease;
+  }
+
+  /* test select overlay (pick category) */
+  .test-cat-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    background: rgba(26,17,8,0.03);
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+  }
+  .test-cat-item:active { transform: scale(0.98); }
+  .test-cat-item.available { border-color: rgba(92,122,106,0.3); background: rgba(92,122,106,0.06); }
+  .test-cat-item.locked-test { opacity: 0.4; cursor: default; }
+  .tci-icon { font-size: 28px; }
+  .tci-info { flex: 1; }
+  .tci-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .tci-meta { font-size: 12px; color: var(--warm-gray); margin-top: 2px; }
+  .tci-arrow { font-size: 18px; color: var(--sage); }
+</style>
+</head>
+<body>
+
+<!-- ═══ HOME SCREEN ═══ -->
+<div id="home" class="screen active">
+  <div class="home-content">
+    <div>
+      <div class="flag-bar"><span></span><span></span></div>
+      <h1 class="home-title">Learn<br><em>Polski</em></h1>
+      <p class="home-subtitle">Master the 100 most essential Polish words<br>with proven learning science</p>
+    </div>
+
+    <div>
+      <div class="home-stats">
+        <div class="stat-box">
+          <div class="stat-num" id="stat-learned">0</div>
+          <div class="stat-label">Learned</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-streak">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-xp">0</div>
+          <div class="stat-label">XP</div>
+        </div>
+      </div>
+
+      <div class="streak-banner">
+        <div class="streak-icon">🔥</div>
+        <div class="streak-text">
+          <strong id="home-streak-label">Start your streak today!</strong>
+          <span id="home-streak-sub">10 words · ~8 minutes</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="showScreen('daily')">Today's Lesson →</button>
+      <button class="btn-secondary" onclick="showScreen('testpick')" style="background:rgba(92,122,106,0.15);border-color:rgba(92,122,106,0.35);color:var(--sage-light);">🧪 Test Mode</button>
+      <button class="btn-secondary" onclick="showScreen('browse')">Browse All Words</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DAILY PLAN SCREEN ═══ -->
+<div id="daily" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <h2>Daily Plan</h2>
+    <div class="xp-badge" id="daily-xp-badge">0 XP</div>
+  </div>
+
+  <div class="day-scroll">
+    <div class="progress-ring-wrap">
+      <svg class="ring-svg" width="120" height="120" viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"
+          stroke="var(--gold)"
+          stroke-dasharray="326.7"
+          stroke-dashoffset="326.7"/>
+      </svg>
+      <div class="progress-ring-label">
+        <strong id="ring-label">0 / 100 words</strong>
+        Overall progress
+      </div>
+    </div>
+
+    <div class="day-section-title">📅 Today's Sessions</div>
+    <div id="session-list"></div>
+
+    <div class="day-section-title" style="margin-top:24px;">📚 Learning Method</div>
+    <div style="background:var(--card-bg);border-radius:18px;padding:18px;box-shadow:var(--shadow);">
+      <div style="font-size:13px;color:var(--warm-gray);line-height:1.7;">
+        <p style="margin-bottom:8px;"><strong style="color:var(--ink);">🧠 Spaced Repetition (SRS)</strong><br>Cards you find hard come back sooner. Easy cards return after longer gaps. This mirrors how memory consolidates.</p>
+        <p style="margin-bottom:8px;"><strong style="color:var(--ink);">🔁 Active Recall</strong><br>See Polish → recall English (or vice versa). Don't peek — the struggle to remember is the learning.</p>
+        <p style="margin-bottom:8px;"><strong style="color:var(--ink);">🗂 Category Chunking</strong><br>Words grouped by theme (numbers, greetings, time) are easier to store and retrieve together.</p>
+        <p><strong style="color:var(--ink);">🎯 10 New + 5 Review</strong><br>Each session introduces new words and revisits previous ones. Review prevents forgetting.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARD SCREEN ═══ -->
+<div id="flashcard" class="screen">
+  <div class="fc-header">
+    <button class="back-btn" onclick="showScreen('daily')" style="color:rgba(250,247,242,0.5)">←</button>
+    <div class="fc-progress-text" id="fc-progress-text">1 / 10</div>
+    <div style="font-size:13px;color:var(--gold)" id="fc-cat-label">Greetings</div>
+  </div>
+  <div class="fc-progress-bar"><div class="fc-progress-fill" id="fc-progress-fill"></div></div>
+
+  <div class="card-arena" id="card-arena">
+    <div class="flashcard" id="the-card" onclick="flipCard()">
+      <div class="flashcard-inner" id="card-inner">
+        <div class="card-face card-front">
+          <div class="card-category-tag" id="front-cat">Greetings</div>
+          <button class="sound-btn" onclick="speakWord(event)" title="Hear pronunciation">🔊</button>
+          <div class="card-word" id="front-word">dzień dobry</div>
+          <div class="card-phonetic" id="front-phonetic" style="color:var(--warm-gray);margin-top:8px;font-size:14px;">[jyen DOH-bry]</div>
+          <div class="tap-hint">↩ tap to reveal meaning</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-category-tag" id="back-cat">Greetings</div>
+          <button class="sound-btn" onclick="speakWord(event)" title="Hear pronunciation">🔊</button>
+          <div class="card-translation" id="back-translation" style="font-size:28px;color:var(--cream);font-family:'Playfair Display',serif;font-weight:400;text-align:center;margin-bottom:6px;">Good morning</div>
+          <div class="card-word" id="back-word" style="font-size:22px;color:var(--gold);margin-bottom:4px;">dzień dobry</div>
+          <div class="card-phonetic" id="back-phonetic">[jyen DOH-bry]</div>
+          <div class="card-example" id="back-example">Dzień dobry! Jak się pan miewa? — Good day! How are you?</div>
+        </div>
+      </div>
+    </div>
+    <p class="fc-tip" id="fc-tip">💡 Polish uses grammatical gender — nouns are masculine, feminine, or neuter</p>
+  </div>
+
+  <div class="fc-actions hidden-until-flip" id="study-actions">
+    <button class="rating-btn btn-hard" onclick="rateCard('hard')">
+      <span class="rb-icon">😓</span>Again
+    </button>
+    <button class="rating-btn btn-ok" onclick="rateCard('ok')">
+      <span class="rb-icon">🤔</span>Hard
+    </button>
+    <button class="rating-btn btn-easy" onclick="rateCard('easy')">
+      <span class="rb-icon">✅</span>Got it!
+    </button>
+  </div>
+</div>
+
+<!-- ═══ RESULTS SCREEN ═══ -->
+<div id="results" class="screen">
+  <div class="result-star" id="result-emoji">⭐</div>
+  <h2 class="result-title" id="result-title">Session Complete!</h2>
+  <p class="result-sub" id="result-sub">You're building real fluency</p>
+
+  <div class="result-stats">
+    <div class="rs-box">
+      <div class="rs-num" id="res-correct">0</div>
+      <div class="rs-label">Correct</div>
+    </div>
+    <div class="rs-box">
+      <div class="rs-num" id="res-xp">+0</div>
+      <div class="rs-label">XP Earned</div>
+    </div>
+    <div class="rs-box">
+      <div class="rs-num" id="res-streak">0🔥</div>
+      <div class="rs-label">Streak</div>
+    </div>
+  </div>
+
+  <div class="technique-tip">
+    <div class="tt-title">🧠 Learning Insight</div>
+    <div class="tt-text" id="res-tip">Try to use these words in a simple sentence before your next session — production practice accelerates retention by 40%.</div>
+  </div>
+
+  <button class="btn-primary" onclick="showScreen('daily')" style="max-width:380px;background:var(--red);">Back to Plan</button>
+  <button class="btn-secondary" onclick="showScreen('home')" style="max-width:380px;color:rgba(250,247,242,0.6);border-color:rgba(250,247,242,0.1);">Home</button>
+</div>
+
+<!-- ═══ BROWSE SCREEN ═══ -->
+<div id="browse" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <h2>All Words</h2>
+    <div style="font-size:13px;color:rgba(250,247,242,0.4)" id="browse-count">100 words</div>
+  </div>
+  <div class="browse-scroll" id="browse-content"></div>
+</div>
+
+<!-- ═══ TEST PICK SCREEN ═══ -->
+<div id="testpick" class="screen" style="background:var(--cream);">
+  <div class="top-bar">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <h2>Test Mode</h2>
+    <div class="test-mode-badge">🧪 Test</div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:16px 20px 100px;">
+    <p style="font-size:14px;color:var(--warm-gray);margin-bottom:20px;line-height:1.6;">
+      Choose a category to test. You'll see the <strong style="color:var(--ink);">English word</strong> first — tap the card to reveal the <strong style="color:var(--ink);">Polish answer</strong>. Only unlocked categories are available.
+    </p>
+
+    <div style="background:#F0FFF6;border:1px solid rgba(92,122,106,0.25);border-radius:16px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--sage);line-height:1.5;">
+      💡 <strong>Test tip:</strong> Try to say the Polish word aloud <em>before</em> flipping — this is active recall, the most powerful memory technique.
+    </div>
+
+    <div id="test-cat-list"></div>
+  </div>
+</div>
+
+<!-- ═══ TEST FLASHCARD SCREEN ═══ -->
+<div id="testscreen" class="screen">
+  <div class="fc-header" style="position:relative;z-index:1;">
+    <button class="back-btn" onclick="showScreen('testpick')" style="color:rgba(138,175,155,0.6)">←</button>
+    <div class="fc-progress-text" id="tfc-progress-text">1 / 10</div>
+    <div class="test-mode-badge" id="tfc-cat-label">Test</div>
+  </div>
+  <div class="fc-progress-bar" style="background:rgba(255,255,255,0.06);">
+    <div class="fc-progress-fill" id="tfc-progress-fill" style="background:var(--sage);"></div>
+  </div>
+
+  <!-- live score bar -->
+  <div style="display:flex;justify-content:center;padding:10px 24px 0;position:relative;z-index:1;">
+    <div class="test-score-pill">
+      <span>✅ <span id="t-correct-count">0</span></span>
+      <span>❌ <span id="t-wrong-count">0</span></span>
+      <span style="color:rgba(138,175,155,0.5);font-weight:400;">remaining: <span id="t-remaining">10</span></span>
+    </div>
+  </div>
+
+  <div class="card-arena" id="test-card-arena" style="position:relative;z-index:1;animation:none;">
+    <div class="flashcard" id="the-test-card" onclick="flipTestCard()" style="animation:none;">
+      <div class="flashcard-inner" id="test-card-inner">
+
+        <!-- FRONT: English -->
+        <div class="card-face test-card-front">
+          <div class="card-category-tag" id="tfront-cat">Greetings</div>
+          <div class="card-word" id="tfront-word">good morning</div>
+          <div class="card-phonetic" style="color:rgba(138,175,155,0.4);margin-top:8px;">tap to reveal Polish →</div>
+          <div class="tap-hint" style="color:rgba(138,175,155,0.5);">↩ tap card</div>
+        </div>
+
+        <!-- BACK: Polish reveal -->
+        <div class="card-face test-card-back">
+          <div class="card-category-tag" id="tback-cat">Greetings</div>
+          <button class="sound-btn" onclick="speakTestWord(event)" style="background:rgba(92,122,106,0.12);border-color:rgba(92,122,106,0.3);" title="Hear pronunciation">🔊</button>
+          <div class="card-word" id="tback-word">dzień dobry</div>
+          <div class="card-phonetic" id="tback-phonetic" style="color:var(--warm-gray);">[jyen DOH-bry]</div>
+          <div class="card-translation" id="tback-translation" style="color:var(--warm-gray);font-size:15px;">good morning / good day</div>
+          <div class="card-example" id="tback-example" style="color:rgba(26,17,8,0.4);">Dzień dobry! — Good day!</div>
+          <div class="tap-hint" style="color:rgba(92,122,106,0.5);">How well did you know it?</div>
+        </div>
+
+      </div>
+    </div>
+    <p class="fc-tip" id="tfc-tip" style="color:rgba(138,175,155,0.4);">💡 Say it aloud before flipping — the struggle strengthens memory</p>
+  </div>
+
+  <div class="fc-actions hidden-until-flip" id="test-actions">
+    <button class="rating-btn btn-hard" onclick="rateTestCard('hard')">
+      <span class="rb-icon">❌</span>Didn't know
+    </button>
+    <button class="rating-btn btn-ok" onclick="rateTestCard('ok')">
+      <span class="rb-icon">🤔</span>Almost
+    </button>
+    <button class="rating-btn btn-easy" onclick="rateTestCard('easy')">
+      <span class="rb-icon">✅</span>Knew it!
+    </button>
+  </div>
+</div>
+
+<!-- ═══ TEST RESULTS SCREEN ═══ -->
+<div id="testresults" class="screen" style="background:var(--ink);align-items:center;justify-content:center;padding:40px 28px;text-align:center;">
+  <div class="result-star" id="tres-emoji">🧪</div>
+  <h2 class="result-title" id="tres-title">Test Complete!</h2>
+  <p class="result-sub" id="tres-sub">Here's how you did</p>
+
+  <div style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;font-size:13px;color:rgba(250,247,242,0.45);">
+    <span>Score</span><span id="tres-pct">0%</span>
+  </div>
+  <div class="test-result-bar"><div class="test-result-bar-fill" id="tres-bar" style="width:0%"></div></div>
+
+  <div class="result-stats" style="margin-bottom:24px;">
+    <div class="rs-box">
+      <div class="rs-num" id="tres-correct" style="color:var(--sage-light);">0</div>
+      <div class="rs-label">Correct</div>
+    </div>
+    <div class="rs-box">
+      <div class="rs-num" id="tres-wrong" style="color:#E74C3C;">0</div>
+      <div class="rs-label">Missed</div>
+    </div>
+    <div class="rs-box">
+      <div class="rs-num" id="tres-xp">+0</div>
+      <div class="rs-label">XP Earned</div>
+    </div>
+  </div>
+
+  <!-- missed words list -->
+  <div id="tres-missed-wrap" style="width:100%;margin-bottom:24px;display:none;">
+    <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:rgba(250,247,242,0.35);margin-bottom:10px;text-align:left;">Words to review</div>
+    <div id="tres-missed-list" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+  </div>
+
+  <div class="technique-tip" style="width:100%;">
+    <div class="tt-title">🧪 Test Insight</div>
+    <div class="tt-text" id="tres-tip">The words you missed have been flagged for extra review in your next study session.</div>
+  </div>
+
+  <button class="btn-primary" onclick="retestMissed()" id="tres-retest-btn" style="max-width:380px;background:var(--sage);display:none;">🔁 Retest Missed Words</button>
+  <button class="btn-primary" onclick="showScreen('testpick')" style="max-width:380px;background:var(--sage);margin-top:10px;">Test Another Category</button>
+  <button class="btn-secondary" onclick="showScreen('home')" style="max-width:380px;color:rgba(250,247,242,0.5);border-color:rgba(250,247,242,0.1);margin-top:8px;">Home</button>
+</div>
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<div class="bottom-nav" id="bottom-nav" style="display:none;">
+  <button class="nav-btn active" id="nav-home" onclick="navTo('home')">
+    <span class="nav-icon">🏠</span>Home
+  </button>
+  <button class="nav-btn" id="nav-daily" onclick="navTo('daily')">
+    <span class="nav-icon">📅</span>Plan
+  </button>
+  <button class="nav-btn" id="nav-testpick" onclick="navTo('testpick')">
+    <span class="nav-icon">🧪</span>Test
+  </button>
+  <button class="nav-btn" id="nav-browse" onclick="navTo('browse')">
+    <span class="nav-icon">📖</span>Words
+  </button>
+</div>
+
+<!-- ═══ WORD DETAIL OVERLAY ═══ -->
+<div class="overlay" id="word-overlay" onclick="closeOverlay()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title" id="ov-word"></h3>
+    <p class="sheet-sub" id="ov-translation"></p>
+    <div class="detail-row">
+      <span class="detail-label">Pronunciation guide</span>
+      <span id="ov-phonetic" style="font-style:italic;"></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Category</span>
+      <span id="ov-cat"></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Example</span>
+      <span id="ov-example" style="font-size:13px;color:var(--warm-gray);text-align:right;max-width:60%;"></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Status</span>
+      <span id="ov-status"></span>
+    </div>
+    <a id="ov-translate-link" class="translate-link" target="_blank">
+      🔊 Hear on Google Translate
+    </a>
+    <button onclick="closeOverlay()" style="width:100%;margin-top:10px;background:none;border:1px solid rgba(26,17,8,0.1);border-radius:14px;padding:12px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;">Close</button>
+  </div>
+</div>
+
+<!-- XP Pop -->
+<div class="xp-pop" id="xp-pop">+10</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — 100 most common Polish words by category
+// ═══════════════════════════════════════════════
+const CATEGORIES = [
+  {
+    id: 'greetings', name: 'Greetings & Basics', icon: '👋', color: '#E8D5A3', accent: '#C8A84B',
+    tip: 'Poles appreciate effort — even a simple "dzień dobry" opens doors instantly.',
+    words: [
+      { pl: 'dzień dobry', en: 'good morning / good day', ph: 'jyen DOH-bry', ex: 'Dzień dobry! — Good day!' },
+      { pl: 'cześć', en: 'hi / bye (informal)', ph: 'cheshch', ex: 'Cześć! Jak leci? — Hi! How\'s it going?' },
+      { pl: 'do widzenia', en: 'goodbye', ph: 'doh vee-DZEN-ya', ex: 'Do widzenia! — Goodbye!' },
+      { pl: 'dobranoc', en: 'good night', ph: 'doh-BRAH-nots', ex: 'Dobranoc! — Good night!' },
+      { pl: 'proszę', en: 'please / here you are', ph: 'PROH-sheh', ex: 'Proszę, kawy. — A coffee, please.' },
+      { pl: 'dziękuję', en: 'thank you', ph: 'jen-KOO-yeh', ex: 'Dziękuję bardzo! — Thank you very much!' },
+      { pl: 'przepraszam', en: 'excuse me / sorry', ph: 'psheh-PRAH-shahm', ex: 'Przepraszam, gdzie jest...? — Excuse me, where is...?' },
+      { pl: 'tak', en: 'yes', ph: 'tahk', ex: 'Tak, oczywiście. — Yes, of course.' },
+      { pl: 'nie', en: 'no / not', ph: 'nyeh', ex: 'Nie rozumiem. — I don\'t understand.' },
+      { pl: 'jak się masz', en: 'how are you', ph: 'yahk sheh mahsh', ex: 'Jak się masz? — How are you?' },
+    ]
+  },
+  {
+    id: 'people', name: 'People & Pronouns', icon: '👤', color: '#D5E8D4', accent: '#5C7A6A',
+    tip: 'Polish pronouns are often dropped — context tells you who is acting.',
+    words: [
+      { pl: 'ja', en: 'I', ph: 'yah', ex: 'Ja jestem z Anglii. — I am from England.' },
+      { pl: 'ty', en: 'you (informal)', ph: 'tih', ex: 'Ty jesteś miły. — You are nice.' },
+      { pl: 'on', en: 'he', ph: 'on', ex: 'On mówi po angielsku. — He speaks English.' },
+      { pl: 'ona', en: 'she', ph: 'OH-nah', ex: 'Ona jest nauczycielką. — She is a teacher.' },
+      { pl: 'my', en: 'we', ph: 'mih', ex: 'My jesteśmy przyjaciółmi. — We are friends.' },
+      { pl: 'wy', en: 'you (plural)', ph: 'vih', ex: 'Wy mówicie za szybko! — You speak too fast!' },
+      { pl: 'oni', en: 'they (masc)', ph: 'OH-nee', ex: 'Oni są tutaj. — They are here.' },
+      { pl: 'pan', en: 'sir / Mr. (formal you)', ph: 'pahn', ex: 'Jak się pan miewa? — How are you, sir?' },
+      { pl: 'pani', en: 'madam / Mrs. (formal you)', ph: 'PAH-nee', ex: 'Czy pani mówi po angielsku? — Do you speak English, madam?' },
+      { pl: 'człowiek', en: 'person / human', ph: 'chwo-VYEHK', ex: 'Każdy człowiek. — Every person.' },
+    ]
+  },
+  {
+    id: 'verbs', name: 'Essential Verbs', icon: '⚡', color: '#FFE0D0', accent: '#C0392B',
+    tip: 'These are all "I" forms (1st person singular) — the most useful starting point in Polish.',
+    words: [
+      { pl: 'jestem', en: 'I am', ph: 'YES-tem', ex: 'Jestem z Anglii. — I am from England.' },
+      { pl: 'mam', en: 'I have', ph: 'mahm', ex: 'Mam pytanie. — I have a question.' },
+      { pl: 'mówię', en: 'I speak / I say', ph: 'MOO-vyeh', ex: 'Mówię po polsku. — I speak Polish.' },
+      { pl: 'chcę', en: 'I want', ph: 'khtseh', ex: 'Chcę kawę. — I want a coffee.' },
+      { pl: 'wiem', en: 'I know', ph: 'vyem', ex: 'Nie wiem. — I don\'t know.' },
+      { pl: 'rozumiem', en: 'I understand', ph: 'roh-ZOO-myem', ex: 'Rozumiem! — I understand!' },
+      { pl: 'idę', en: 'I am going', ph: 'EE-deh', ex: 'Idę do domu. — I\'m going home.' },
+      { pl: 'jem', en: 'I eat', ph: 'yem', ex: 'Co jem? — What am I eating?' },
+      { pl: 'piję', en: 'I drink', ph: 'PEE-yeh', ex: 'Piję herbatę. — I\'m drinking tea.' },
+      { pl: 'lubię', en: 'I like', ph: 'LOO-byeh', ex: 'Lubię Polskę! — I like Poland!' },
+    ]
+  },
+  {
+    id: 'numbers', name: 'Numbers 1–10', icon: '🔢', color: '#D0E8FF', accent: '#2980B9',
+    tip: 'Numbers 1–10 are the foundation — Polish counting rules shift after 5.',
+    words: [
+      { pl: 'jeden', en: 'one', ph: 'YEH-den', ex: 'Jeden bilet proszę. — One ticket please.' },
+      { pl: 'dwa', en: 'two', ph: 'dvah', ex: 'Dwa piwa proszę. — Two beers please.' },
+      { pl: 'trzy', en: 'three', ph: 'tshih', ex: 'Trzy dni. — Three days.' },
+      { pl: 'cztery', en: 'four', ph: 'CHTE-rih', ex: 'Cztery osoby. — Four people.' },
+      { pl: 'pięć', en: 'five', ph: 'pyench', ex: 'Pięć złotych. — Five zloty.' },
+      { pl: 'sześć', en: 'six', ph: 'sheshch', ex: 'Sześć minut. — Six minutes.' },
+      { pl: 'siedem', en: 'seven', ph: 'SHEH-dem', ex: 'Siedem dni w tygodniu. — Seven days in a week.' },
+      { pl: 'osiem', en: 'eight', ph: 'OH-shem', ex: 'Osiem godzin. — Eight hours.' },
+      { pl: 'dziewięć', en: 'nine', ph: 'jyeh-VYENCH', ex: 'Dziewięć minut. — Nine minutes.' },
+      { pl: 'dziesięć', en: 'ten', ph: 'jyeh-SHENCH', ex: 'Dziesięć złotych. — Ten zloty.' },
+    ]
+  },
+  {
+    id: 'time', name: 'Time & Days', icon: '⏰', color: '#F0D5FF', accent: '#8E44AD',
+    tip: 'Learning time words unlocks the ability to make plans and describe your routine.',
+    words: [
+      { pl: 'dzisiaj', en: 'today', ph: 'JEE-shyay', ex: 'Dzisiaj jest piątek. — Today is Friday.' },
+      { pl: 'jutro', en: 'tomorrow', ph: 'YOO-troh', ex: 'Do jutra! — See you tomorrow!' },
+      { pl: 'wczoraj', en: 'yesterday', ph: 'VCHOH-ray', ex: 'Wczoraj było zimno. — Yesterday was cold.' },
+      { pl: 'teraz', en: 'now', ph: 'TEH-rahs', ex: 'Teraz rozumiem. — Now I understand.' },
+      { pl: 'poniedziałek', en: 'Monday', ph: 'poh-nyeh-JA-wek', ex: 'W poniedziałek pracuję. — I work on Monday.' },
+      { pl: 'piątek', en: 'Friday', ph: 'PYON-tek', ex: 'W piątek wieczorem. — On Friday evening.' },
+      { pl: 'godzina', en: 'hour / o\'clock', ph: 'goh-JEE-nah', ex: 'O której godzinie? — At what time?' },
+      { pl: 'rok', en: 'year', ph: 'rok', ex: 'Ten rok. — This year.' },
+      { pl: 'tydzień', en: 'week', ph: 'TIH-jen', ex: 'Przyszły tydzień. — Next week.' },
+      { pl: 'rano', en: 'morning / in the morning', ph: 'RAH-noh', ex: 'Rano jem śniadanie. — In the morning I eat breakfast.' },
+    ]
+  },
+  {
+    id: 'places', name: 'Places & Directions', icon: '🗺️', color: '#FFE8D5', accent: '#D35400',
+    tip: '"Gdzie" (where) and "tu / tam" are among the most practical Polish words for travel.',
+    words: [
+      { pl: 'gdzie', en: 'where', ph: 'gjyeh', ex: 'Gdzie jest stacja? — Where is the station?' },
+      { pl: 'tu / tutaj', en: 'here', ph: 'too / TOO-tay', ex: 'Jestem tutaj. — I am here.' },
+      { pl: 'tam', en: 'there', ph: 'tahm', ex: 'To jest tam. — It is there.' },
+      { pl: 'dom', en: 'home / house', ph: 'dom', ex: 'Idę do domu. — I\'m going home.' },
+      { pl: 'miasto', en: 'city / town', ph: 'MYAH-sto', ex: 'Piękne miasto! — Beautiful city!' },
+      { pl: 'ulica', en: 'street', ph: 'oo-LEE-tsah', ex: 'Na tej ulicy. — On this street.' },
+      { pl: 'sklep', en: 'shop / store', ph: 'sklep', ex: 'Idę do sklepu. — I\'m going to the shop.' },
+      { pl: 'restauracja', en: 'restaurant', ph: 'res-tau-RAT-syah', ex: 'Dobra restauracja. — A good restaurant.' },
+      { pl: 'lewo', en: 'left', ph: 'LEH-voh', ex: 'Skręć w lewo. — Turn left.' },
+      { pl: 'prawo', en: 'right', ph: 'PRAH-voh', ex: 'Na prawo. — To the right.' },
+    ]
+  },
+  {
+    id: 'adjectives', name: 'Key Adjectives', icon: '🎨', color: '#D5FFE8', accent: '#27AE60',
+    tip: 'Polish adjectives agree with the noun in gender — e.g. dobry (m.) vs. dobra (f.).',
+    words: [
+      { pl: 'dobry', en: 'good', ph: 'DOH-brih', ex: 'Dobry pomysł! — Good idea!' },
+      { pl: 'zły', en: 'bad / angry', ph: 'zwih', ex: 'Zły dzień. — A bad day.' },
+      { pl: 'duży', en: 'big / large', ph: 'DOO-zhih', ex: 'Duże miasto. — A big city.' },
+      { pl: 'mały', en: 'small / little', ph: 'MAH-wih', ex: 'Mały problem. — A small problem.' },
+      { pl: 'nowy', en: 'new', ph: 'NOH-vih', ex: 'Nowy dom. — A new house.' },
+      { pl: 'stary', en: 'old', ph: 'STAH-rih', ex: 'Stary zamek. — An old castle.' },
+      { pl: 'piękny', en: 'beautiful', ph: 'PYENK-nih', ex: 'Piękny widok! — Beautiful view!' },
+      { pl: 'ważny', en: 'important', ph: 'VAZH-nih', ex: 'To jest ważne. — This is important.' },
+      { pl: 'drogi', en: 'expensive / dear', ph: 'DROH-ghee', ex: 'Za drogo! — Too expensive!' },
+      { pl: 'tani', en: 'cheap / inexpensive', ph: 'TAH-nee', ex: 'To jest tanie. — This is cheap.' },
+    ]
+  },
+  {
+    id: 'connectors', name: 'Connecting Words', icon: '🔗', color: '#FFD5D5', accent: '#C0392B',
+    tip: 'Connectors are the glue of language — mastering them makes sentences flow naturally.',
+    words: [
+      { pl: 'i', en: 'and', ph: 'ee', ex: 'Kawa i herbata. — Coffee and tea.' },
+      { pl: 'ale', en: 'but', ph: 'AH-leh', ex: 'Chcę, ale nie mogę. — I want to, but I cannot.' },
+      { pl: 'lub / albo', en: 'or', ph: 'loop / AHL-boh', ex: 'Herbata lub kawa? — Tea or coffee?' },
+      { pl: 'bo / ponieważ', en: 'because', ph: 'boh / poh-nyeh-VAHZH', ex: 'Uczę się, bo chcę. — I study because I want to.' },
+      { pl: 'że', en: 'that (conjunction)', ph: 'zheh', ex: 'Myślę, że tak. — I think that yes.' },
+      { pl: 'kiedy', en: 'when', ph: 'KYEH-dih', ex: 'Kiedy wracasz? — When are you coming back?' },
+      { pl: 'jak', en: 'how / like / as', ph: 'yahk', ex: 'Jak to się pisze? — How do you write that?' },
+      { pl: 'co', en: 'what', ph: 'tsoh', ex: 'Co to jest? — What is this?' },
+      { pl: 'kto', en: 'who', ph: 'ktoh', ex: 'Kto to? — Who is that?' },
+      { pl: 'bardzo', en: 'very', ph: 'BAHR-dzoh', ex: 'Bardzo dobrze! — Very well!' },
+    ]
+  },
+  {
+    id: 'food', name: 'Food & Drink', icon: '🍽️', color: '#FFECD5', accent: '#E67E22',
+    tip: 'Food vocabulary is high-frequency and immediately practical for daily life in Poland.',
+    words: [
+      { pl: 'woda', en: 'water', ph: 'VOH-dah', ex: 'Szklanka wody. — A glass of water.' },
+      { pl: 'kawa', en: 'coffee', ph: 'KAH-vah', ex: 'Czarna kawa. — Black coffee.' },
+      { pl: 'herbata', en: 'tea', ph: 'her-BAH-tah', ex: 'Herbata z mlekiem. — Tea with milk.' },
+      { pl: 'chleb', en: 'bread', ph: 'khlep', ex: 'Świeży chleb. — Fresh bread.' },
+      { pl: 'mleko', en: 'milk', ph: 'MLEH-koh', ex: 'Szklanka mleka. — A glass of milk.' },
+      { pl: 'mięso', en: 'meat', ph: 'MYEN-soh', ex: 'Bez mięsa. — Without meat.' },
+      { pl: 'warzywa', en: 'vegetables', ph: 'vah-ZHIH-vah', ex: 'Świeże warzywa. — Fresh vegetables.' },
+      { pl: 'smaczny', en: 'tasty / delicious', ph: 'SMAHCH-nih', ex: 'Smacznego! — Enjoy your meal!' },
+      { pl: 'jeść', en: 'to eat', ph: 'yeshch', ex: 'Chcę coś zjeść. — I want to eat something.' },
+      { pl: 'rachunek', en: 'bill / receipt', ph: 'rah-KHOO-nek', ex: 'Poproszę rachunek. — The bill, please.' },
+    ]
+  },
+  {
+    id: 'useful', name: 'Survival Phrases', icon: '🆘', color: '#D5EEFF', accent: '#2980B9',
+    tip: 'These are the words that get you out of trouble and help you connect with people.',
+    words: [
+      { pl: 'pomoc', en: 'help', ph: 'POH-mots', ex: 'Potrzebuję pomocy! — I need help!' },
+      { pl: 'nie rozumiem', en: 'I don\'t understand', ph: 'nyeh roh-ZOO-myem', ex: 'Przepraszam, nie rozumiem. — Sorry, I don\'t understand.' },
+      { pl: 'mówić wolniej', en: 'speak slower', ph: 'MOO-veech VOL-nyey', ex: 'Proszę mówić wolniej. — Please speak slower.' },
+      { pl: 'po angielsku', en: 'in English', ph: 'poh ahn-GYEL-skoo', ex: 'Czy mówisz po angielsku? — Do you speak English?' },
+      { pl: 'ile kosztuje', en: 'how much does it cost', ph: 'EE-leh koh-SHTOO-yeh', ex: 'Ile to kosztuje? — How much does this cost?' },
+      { pl: 'toaleta', en: 'toilet / bathroom', ph: 'toh-ah-LEH-tah', ex: 'Gdzie jest toaleta? — Where is the bathroom?' },
+      { pl: 'szpital', en: 'hospital', ph: 'SHPEE-tahl', ex: 'Potrzebuję szpitala. — I need a hospital.' },
+      { pl: 'policja', en: 'police', ph: 'poh-LEETS-yah', ex: 'Zadzwoń na policję! — Call the police!' },
+      { pl: 'nie wiem', en: 'I don\'t know', ph: 'nyeh vyem', ex: 'Przepraszam, nie wiem. — Sorry, I don\'t know.' },
+      { pl: 'oczywiście', en: 'of course', ph: 'oh-chih-VEESH-cheh', ex: 'Oczywiście! — Of course!' },
+    ]
+  },
+];
+
+const LEARNING_TIPS = [
+  "Try to use these words in a simple sentence before your next session — production practice accelerates retention by 40%.",
+  "Polish has nasal vowels (ą, ę) — listen carefully using the 🔊 button to train your ear.",
+  "Write each new word 3 times by hand — motor memory reinforces visual memory.",
+  "Read Polish signs or menus around you — real-world context boosts recall.",
+  "Record yourself saying each word and compare to the Google Translate pronunciation.",
+  "Create a 'Polish moment' each day — think of a word as you do a daily task.",
+  "Sleep consolidates memory — studying before bed gives new words extra time to stick.",
+  "The more emotional the association, the stronger the memory. Link words to feelings.",
+];
+
+// ════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════
+let state = {
+  xp: 0,
+  streak: 0,
+  lastStudyDate: null,
+  wordStatus: {}, // pl → { status: 'new'|'learning'|'known', easeFactor: 2.5, interval: 1, nextReview: Date }
+  sessionCards: [],
+  sessionIdx: 0,
+  sessionCorrect: 0,
+  sessionXP: 0,
+  currentCategory: null,
+  currentDay: 1,
+};
+
+function saveState() {
+  try {
+    // Only persist the data that needs to survive between sessions
+    // Do NOT save sessionCards — they contain large nested category objects
+    // that can bloat localStorage and cause saves to silently fail
+    const toSave = {
+      xp: state.xp,
+      streak: state.streak,
+      lastStudyDate: state.lastStudyDate,
+      wordStatus: state.wordStatus,
+      currentDay: state.currentDay,
+    };
+    localStorage.setItem('polski_state', JSON.stringify(toSave));
+  } catch(e) {
+    console.warn('Save failed:', e);
+  }
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('polski_state');
+    if (s) state = { ...state, ...JSON.parse(s) };
+  } catch(e) {}
+  // Always reset mid-session state on load — prevents stale idx cutting sessions short
+  state.sessionIdx = 0;
+  state.sessionCards = [];
+  state.hardCards = [];
+  updateStreak();
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (state.lastStudyDate) {
+    const last = new Date(state.lastStudyDate);
+    const diff = Math.floor((new Date() - last) / 86400000);
+    if (diff > 1) state.streak = 0;
+  }
+}
+
+function getWordStatus(word) {
+  return state.wordStatus[word.pl] || { status: 'new', easeFactor: 2.5, interval: 1 };
+}
+
+function allWords() {
+  return CATEGORIES.flatMap(c => c.words.map(w => ({ ...w, category: c })));
+}
+
+function learnedCount() {
+  return Object.values(state.wordStatus).filter(s => s.status === 'known' || s.status === 'learning').length;
+}
+
+// SRS update (SM-2 simplified)
+function updateSRS(word, rating) {
+  const ws = getWordStatus(word);
+  let { easeFactor = 2.5, interval = 1, reviewCount = 0 } = ws;
+
+  if (rating === 'hard') {
+    interval = 1;
+    reviewCount = Math.max(0, reviewCount - 1);
+    easeFactor = Math.max(1.3, easeFactor - 0.2);
+  } else if (rating === 'ok') {
+    interval = Math.max(1, Math.ceil(interval * 1.5));
+    reviewCount = reviewCount + 1;
+    easeFactor = Math.max(1.3, easeFactor - 0.05);
+  } else { // easy
+    interval = Math.round(interval * easeFactor);
+    reviewCount = reviewCount + 1;
+    easeFactor = Math.min(3.0, easeFactor + 0.1);
+  }
+
+  const nextReview = new Date();
+  nextReview.setDate(nextReview.getDate() + interval);
+
+  // 'known' after 2+ successful reviews; 'learning' from first rating onwards
+  const status = reviewCount >= 2 ? 'known' : 'learning';
+  state.wordStatus[word.pl] = { status, easeFactor, interval, nextReview: nextReview.toISOString(), reviewCount };
+  saveState();
+}
+
+// ════════════════════════════════════════════
+// DAILY SESSIONS
+// ════════════════════════════════════════════
+function buildDailySessions() {
+  const sessions = [];
+
+  CATEGORIES.forEach((cat, i) => {
+    const catWords = cat.words;
+
+    // Count any word that has been seen (learning or known) as progress
+    const progress = catWords.filter(w => {
+      const ws = state.wordStatus[w.pl];
+      return ws && ws.status && ws.status !== 'new';
+    }).length;
+
+    const known = catWords.filter(w => {
+      const ws = state.wordStatus[w.pl];
+      return ws && ws.status === 'known';
+    }).length;
+
+    // Unlocked: first category always unlocked; others unlock when previous has any progress
+    const prevProgress = i === 0 ? 1 : (sessions[i-1]?.progress || 0);
+    const unlocked = i === 0 || prevProgress > 0;
+
+    // Done when all words are known
+    const done = known >= catWords.length;
+
+    sessions.push({
+      catId: cat.id,
+      cat,
+      progress,
+      known,
+      total: catWords.length,
+      unlocked,
+      done,
+    });
+  });
+  return sessions;
+}
+
+// ════════════════════════════════════════════
+// SCREENS
+// ════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  const navScreens = ['home', 'daily', 'browse', 'testpick'];
+  const nav = document.getElementById('bottom-nav');
+  nav.style.display = navScreens.includes(id) ? 'flex' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (id === 'home') document.getElementById('nav-home')?.classList.add('active');
+  if (id === 'daily') document.getElementById('nav-daily')?.classList.add('active');
+  if (id === 'browse') document.getElementById('nav-browse')?.classList.add('active');
+  if (id === 'testpick') document.getElementById('nav-testpick')?.classList.add('active');
+
+  if (id === 'home') renderHome();
+  if (id === 'daily') renderDaily();
+  if (id === 'browse') renderBrowse();
+  if (id === 'testpick') renderTestPick();
+}
+
+function navTo(id) { showScreen(id); }
+
+// ════════════════════════════════════════════
+// HOME
+// ════════════════════════════════════════════
+function renderHome() {
+  document.getElementById('stat-learned').textContent = learnedCount();
+  document.getElementById('stat-streak').textContent = state.streak;
+  document.getElementById('stat-xp').textContent = state.xp;
+
+  const streak = state.streak;
+  document.getElementById('home-streak-label').textContent =
+    streak > 0 ? `🔥 ${streak}-day streak! Keep going!` : 'Start your streak today!';
+}
+
+// ════════════════════════════════════════════
+// DAILY
+// ════════════════════════════════════════════
+function renderDaily() {
+  document.getElementById('daily-xp-badge').textContent = state.xp + ' XP';
+
+  const total = 100;
+  const learned = learnedCount();
+  const pct = learned / total;
+  const circ = 326.7;
+  document.getElementById('ring-fill').style.strokeDashoffset = circ - circ * pct;
+  document.getElementById('ring-label').textContent = `${learned} / ${total} words`;
+
+  const sessions = buildDailySessions();
+  const list = document.getElementById('session-list');
+  list.innerHTML = '';
+
+  sessions.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'category-card' + (s.done ? ' done' : '') + (!s.unlocked ? ' locked' : '');
+
+    const cat = s.cat;
+    const pct = s.total > 0 ? s.progress / s.total : 0;
+    const statusIcon = s.done ? '✅' : (!s.unlocked ? '🔒' : s.progress > 0 ? '▶️' : '🆕');
+    const metaText = s.done
+      ? 'Complete ✅'
+      : !s.unlocked
+        ? 'Locked 🔒'
+        : s.progress > 0
+          ? `${s.known}/${s.total} known · ${s.progress - s.known} learning`
+          : 'Start session →';
+
+    div.innerHTML = `
+      <div class="cat-icon" style="background:${cat.color}20;border:1px solid ${cat.color}60">${cat.icon}</div>
+      <div class="cat-info">
+        <div class="cat-name">${cat.name}</div>
+        <div class="cat-meta">${metaText}</div>
+        <div class="mini-bar">
+          <div class="mini-bar-fill" style="width:${pct*100}%;background:${cat.accent}"></div>
+        </div>
+      </div>
+      <div class="cat-status">${statusIcon}</div>`;
+
+    if (s.unlocked && !s.done) {
+      div.onclick = () => startSession(cat);
+    }
+    list.appendChild(div);
+  });
+}
+
+// ════════════════════════════════════════════
+// FLASHCARD SESSION
+// ════════════════════════════════════════════
+function startSession(cat) {
+  state.currentCategory = cat;
+
+  // Always show ALL words in the category — new ones first, then reviewing
+  const allCatWords = cat.words;
+  const newWords = allCatWords.filter(w => !state.wordStatus[w.pl] || state.wordStatus[w.pl].status === 'new');
+  const reviewing = allCatWords.filter(w => {
+    const ws = state.wordStatus[w.pl];
+    if (!ws || ws.status === 'new') return false;
+    return true; // include learning + known for review
+  });
+
+  // Build deck: all new words + any due for review, minimum 5 cards always
+  let cards = [
+    ...newWords.map(w => ({ ...w, category: cat, isNew: true })),
+    ...reviewing.map(w => ({ ...w, category: cat, isNew: false })),
+  ];
+
+  // If somehow empty (all known, none due), just show all words anyway
+  if (cards.length === 0) {
+    cards = allCatWords.map(w => ({ ...w, category: cat, isNew: false }));
+  }
+
+  // Shuffle
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+
+  // Always reset session state completely
+  state.sessionCards = cards;
+  state.sessionIdx = 0;
+  state.sessionCorrect = 0;
+  state.sessionXP = 0;
+  state.hardCards = []; // track cards to recycle
+  saveState();
+
+  showScreen('flashcard');
+  renderCard();
+}
+
+function renderCard() {
+  if (state.sessionIdx >= state.sessionCards.length) {
+    if (state.hardCards && state.hardCards.length > 0) {
+      const recycled = [...state.hardCards];
+      state.hardCards = [];
+      for (let i = recycled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [recycled[i], recycled[j]] = [recycled[j], recycled[i]];
+      }
+      state.sessionCards = [...state.sessionCards, ...recycled];
+    } else {
+      finishSession();
+      return;
+    }
+  }
+
+  const idx = state.sessionIdx;
+  const card = state.sessionCards[idx];
+  if (!card || !card.category) { finishSession(); return; }
+
+  const total = state.sessionCards.length;
+
+  // ── 1. Snap card to front face instantly (no animation yet) ──
+  const theCard = document.getElementById('the-card');
+  const cardInner = document.getElementById('card-inner');
+  theCard.style.opacity = '0';
+  cardInner.style.transition = 'none';
+  cardInner.style.transform = 'rotateY(0deg)';
+  theCard.classList.remove('flipped');
+  void cardInner.offsetWidth; // force reflow
+
+  // ── 2. Update ALL content while card is invisible ──
+  document.getElementById('fc-progress-text').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('fc-progress-fill').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('fc-cat-label').textContent = card.category.name;
+
+  document.getElementById('front-cat').textContent = card.category.icon + ' ' + card.category.name;
+  document.getElementById('front-word').textContent = card.pl;
+  document.getElementById('front-phonetic').textContent = '[' + card.ph + ']';
+
+  document.getElementById('back-cat').textContent = card.category.icon + ' ' + card.category.name;
+  document.getElementById('back-word').textContent = card.pl;
+  document.getElementById('back-phonetic').textContent = '[' + card.ph + ']';
+  document.getElementById('back-translation').textContent = card.en;
+  document.getElementById('back-example').textContent = card.ex || '';
+
+  const tips = [
+    card.category.tip,
+    'Polish consonant clusters can look scary but become natural with practice.',
+    'Tap 🔊 to hear the real pronunciation via Google Translate.',
+    'Try visualising the word as an image to make it memorable.',
+    'Say the word aloud — speaking activates different memory pathways.',
+  ];
+  document.getElementById('fc-tip').textContent = '💡 ' + tips[idx % tips.length];
+
+  // ── 3. Hide rating buttons ──
+  const studyActions = document.getElementById('study-actions');
+  studyActions.classList.remove('revealed');
+  studyActions.classList.add('hidden-until-flip');
+
+  // ── 4. Re-enable transition and fade card in ──
+  void theCard.offsetWidth;
+  cardInner.style.transition = '';
+  cardInner.style.transform = '';
+  theCard.style.transition = 'opacity 0.2s ease';
+  theCard.style.opacity = '1';
+  setTimeout(() => { theCard.style.transition = ''; }, 250);
+}
+
+function flipCard() {
+  const card = document.getElementById('the-card');
+  card.classList.toggle('flipped');
+  if (card.classList.contains('flipped')) {
+    const actions = document.getElementById('study-actions');
+    actions.classList.remove('hidden-until-flip');
+    setTimeout(() => actions.classList.add('revealed'), 50);
+  }
+}
+
+function speakWord(event) {
+  event.stopPropagation();
+  const word = document.getElementById('front-word').textContent;
+  const url = `https://translate.google.com/?sl=pl&tl=en&text=${encodeURIComponent(word)}&op=translate`;
+  window.open(url, '_blank');
+}
+
+function rateCard(rating) {
+  const card = state.sessionCards[state.sessionIdx];
+  updateSRS(card, rating);
+
+  let xpEarned = 0;
+  if (rating === 'easy') { xpEarned = 10; state.sessionCorrect++; }
+  else if (rating === 'ok') { xpEarned = 5; state.sessionCorrect++; }
+  else {
+    xpEarned = 2;
+    // Queue hard card to come back at the end of this pass
+    if (!state.hardCards) state.hardCards = [];
+    state.hardCards.push({ ...card });
+  }
+
+  state.sessionXP += xpEarned;
+  state.xp += xpEarned;
+
+  const pop = document.getElementById('xp-pop');
+  pop.textContent = '+' + xpEarned;
+  pop.classList.add('show');
+  setTimeout(() => pop.classList.remove('show'), 600);
+
+  state.sessionIdx++;
+  saveState();
+  renderCard();
+}
+
+function finishSession() {
+  // Update streak
+  const today = new Date().toDateString();
+  if (state.lastStudyDate !== today) {
+    state.streak += 1;
+    state.lastStudyDate = today;
+  }
+  saveState();
+
+  // Results
+  const cards = state.sessionCards;
+  const correct = state.sessionCorrect;
+  const pct = Math.round((correct / cards.length) * 100);
+
+  document.getElementById('result-emoji').textContent = pct >= 80 ? '🏆' : pct >= 50 ? '⭐' : '📚';
+  document.getElementById('result-title').textContent = pct >= 80 ? 'Świetnie!' : pct >= 50 ? 'Dobrze!' : 'Keep Practising!';
+  document.getElementById('result-sub').textContent = pct >= 80 ? 'Excellent work! Your Polish is growing.' : 'Every session builds your fluency.';
+  document.getElementById('res-correct').textContent = correct + '/' + cards.length;
+  document.getElementById('res-xp').textContent = '+' + state.sessionXP;
+  document.getElementById('res-streak').textContent = state.streak + '🔥';
+
+  const tip = LEARNING_TIPS[Math.floor(Math.random() * LEARNING_TIPS.length)];
+  document.getElementById('res-tip').textContent = tip;
+
+  showScreen('results');
+}
+
+// ════════════════════════════════════════════
+// BROWSE
+// ════════════════════════════════════════════
+function renderBrowse() {
+  const container = document.getElementById('browse-content');
+  container.innerHTML = '';
+
+  CATEGORIES.forEach(cat => {
+    const section = document.createElement('div');
+
+    const header = document.createElement('div');
+    header.className = 'cat-section-header';
+    header.innerHTML = `<span class="cat-section-icon">${cat.icon}</span><span class="cat-section-name">${cat.name}</span>`;
+    section.appendChild(header);
+
+    const wordWrap = document.createElement('div');
+    wordWrap.style.paddingBottom = '8px';
+
+    cat.words.forEach(word => {
+      const ws = getWordStatus(word);
+      const chip = document.createElement('div');
+      chip.className = 'word-chip ' + (ws.status === 'known' ? 'known' : ws.status === 'learning' ? 'reviewing' : '');
+      chip.innerHTML = `<span class="wc-pl">${word.pl}</span><span class="wc-en">${word.en}</span>`;
+      chip.onclick = () => openWordOverlay({ ...word, category: cat });
+      wordWrap.appendChild(chip);
+    });
+
+    section.appendChild(wordWrap);
+    container.appendChild(section);
+  });
+}
+
+function openWordOverlay(word) {
+  document.getElementById('ov-word').textContent = word.pl;
+  document.getElementById('ov-translation').textContent = word.en;
+  document.getElementById('ov-phonetic').textContent = '[' + word.ph + ']';
+  document.getElementById('ov-cat').textContent = word.category
+    ? (word.category.icon + ' ' + word.category.name)
+    : '—';
+  document.getElementById('ov-example').textContent = word.ex || '—';
+
+  const ws = getWordStatus(word);
+  const statusMap = { new: '🆕 Not studied', learning: '📚 Learning', known: '✅ Known' };
+  document.getElementById('ov-status').textContent = statusMap[ws.status] || '🆕 Not studied';
+
+  const url = `https://translate.google.com/?sl=pl&tl=en&text=${encodeURIComponent(word.pl)}&op=translate`;
+  document.getElementById('ov-translate-link').href = url;
+
+  document.getElementById('word-overlay').classList.add('open');
+}
+
+function closeOverlay() {
+  document.getElementById('word-overlay').classList.remove('open');
+}
+
+// ════════════════════════════════════════════
+// TEST MODE
+// ════════════════════════════════════════════
+let testState = {
+  cards: [],
+  idx: 0,
+  correct: 0,
+  wrong: 0,
+  missedCards: [],
+  xpEarned: 0,
+  category: null,
+  flipped: false,
+};
+
+function renderTestPick() {
+  const list = document.getElementById('test-cat-list');
+  list.innerHTML = '';
+
+  CATEGORIES.forEach((cat, i) => {
+    const studiedWords = cat.words.filter(w => {
+      const ws = state.wordStatus[w.pl];
+      return ws && ws.status !== 'new';
+    });
+    const learned = studiedWords.length;
+
+    // Available to test only if at least 1 word has been studied
+    const hasStudied = learned > 0;
+
+    const item = document.createElement('div');
+    item.className = 'test-cat-item ' + (hasStudied ? 'available' : 'locked-test');
+
+    const statusText = hasStudied
+      ? (learned === cat.words.length
+          ? `All ${cat.words.length} words — ready to test`
+          : `${learned} of ${cat.words.length} words studied`)
+      : 'Study at least one word first';
+
+    item.innerHTML = `
+      <div class="tci-icon">${cat.icon}</div>
+      <div class="tci-info">
+        <div class="tci-name">${cat.name}</div>
+        <div class="tci-meta">${statusText}</div>
+      </div>
+      <div class="tci-arrow">${hasStudied ? '→' : '🔒'}</div>`;
+
+    if (hasStudied) {
+      // Always attach category to each word object
+      const wordsWithCat = cat.words.map(w => ({ ...w, category: cat }));
+      item.onclick = () => startTestSession(cat, wordsWithCat, false);
+    }
+    list.appendChild(item);
+  });
+
+  // Grand Test — all studied words
+  const allStudiedWords = CATEGORIES.flatMap(cat =>
+    cat.words
+      .filter(w => state.wordStatus[w.pl] && state.wordStatus[w.pl].status !== 'new')
+      .map(w => ({ ...w, category: cat }))
+  );
+
+  if (allStudiedWords.length >= 5) {
+    const divider = document.createElement('div');
+    divider.style.cssText = 'border-top:1px solid rgba(26,17,8,0.08);margin:16px 0 12px;';
+    list.appendChild(divider);
+
+    const allItem = document.createElement('div');
+    allItem.className = 'test-cat-item available';
+    allItem.style.background = 'rgba(192,57,43,0.06)';
+    allItem.style.borderColor = 'rgba(192,57,43,0.25)';
+    allItem.innerHTML = `
+      <div class="tci-icon">🏆</div>
+      <div class="tci-info">
+        <div class="tci-name" style="color:var(--red)">Grand Test — All Words</div>
+        <div class="tci-meta">Test all ${allStudiedWords.length} studied words at once</div>
+      </div>
+      <div class="tci-arrow" style="color:var(--red)">→</div>`;
+
+    allItem.onclick = () => startTestSession(null, allStudiedWords, true);
+    list.appendChild(allItem);
+  }
+
+  // If nothing is available yet, show a helpful message
+  const anyAvailable = CATEGORIES.some(cat =>
+    cat.words.some(w => state.wordStatus[w.pl] && state.wordStatus[w.pl].status !== 'new')
+  );
+  if (!anyAvailable) {
+    const msg = document.createElement('div');
+    msg.style.cssText = 'text-align:center;padding:32px 16px;color:var(--warm-gray);font-size:14px;line-height:1.6;';
+    msg.innerHTML = '📚 Complete at least one study session first,<br>then come back to test yourself!';
+    list.appendChild(msg);
+  }
+}
+
+function startTestSession(cat, words, isGrand) {
+  if (!words || words.length === 0) {
+    alert('No words to test yet! Study some words first.');
+    return;
+  }
+
+  // Shuffle
+  const shuffled = [...words];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  // Ensure every card has a category attached
+  const cards = shuffled.map(w => ({
+    ...w,
+    category: w.category || cat,
+  }));
+
+  testState = {
+    cards,
+    idx: 0,
+    correct: 0,
+    wrong: 0,
+    missedCards: [],
+    xpEarned: 0,
+    category: cat,
+    flipped: false,
+    isGrand: !!isGrand,
+  };
+
+  showScreen('testscreen');
+  renderTestCard();
+}
+
+function renderTestCard() {
+  const { cards, idx } = testState;
+
+  if (idx >= cards.length) {
+    finishTestSession();
+    return;
+  }
+
+  const card = cards[idx];
+  testState.flipped = false;
+
+  // ── 1. Snap to front instantly while invisible ──
+  const testCard = document.getElementById('the-test-card');
+  const inner = document.getElementById('test-card-inner');
+  testCard.style.opacity = '0';
+  inner.style.transition = 'none';
+  inner.style.transform = 'rotateY(0deg)';
+  testCard.classList.remove('flipped');
+  void inner.offsetWidth;
+
+  // ── 2. Update ALL content while invisible ──
+  document.getElementById('tfc-progress-text').textContent = `${idx + 1} / ${cards.length}`;
+  document.getElementById('tfc-progress-fill').style.width = ((idx / cards.length) * 100) + '%';
+  document.getElementById('tfc-cat-label').textContent = testState.isGrand ? '🏆 Grand Test' : card.category.icon + ' ' + card.category.name;
+
+  document.getElementById('tfront-cat').textContent = card.category.icon + ' ' + card.category.name;
+  document.getElementById('tfront-word').textContent = card.en;
+
+  document.getElementById('tback-cat').textContent = card.category.icon + ' ' + card.category.name;
+  document.getElementById('tback-word').textContent = card.pl;
+  document.getElementById('tback-phonetic').textContent = '[' + card.ph + ']';
+  document.getElementById('tback-translation').textContent = card.en;
+  document.getElementById('tback-example').textContent = card.ex || '';
+
+  document.getElementById('t-correct-count').textContent = testState.correct;
+  document.getElementById('t-wrong-count').textContent = testState.wrong;
+  document.getElementById('t-remaining').textContent = cards.length - idx;
+
+  const tips = [
+    'Say the Polish word aloud before flipping — the struggle strengthens memory.',
+    'Visualise the word — attach an image or feeling to it.',
+    'Tap 🔊 after flipping to hear the real pronunciation.',
+    'If you\'re not sure, that\'s normal — uncertainty means you\'re learning.',
+    card.category.tip,
+  ];
+  document.getElementById('tfc-tip').textContent = '💡 ' + tips[idx % tips.length];
+
+  // ── 3. Hide rating buttons ──
+  const actions = document.getElementById('test-actions');
+  actions.classList.remove('revealed');
+  actions.classList.add('hidden-until-flip');
+
+  // ── 4. Re-enable and fade in ──
+  void testCard.offsetWidth;
+  inner.style.transition = '';
+  inner.style.transform = '';
+  testCard.style.transition = 'opacity 0.2s ease';
+  testCard.style.opacity = '1';
+  setTimeout(() => { testCard.style.transition = ''; }, 250);
+}
+}
+
+function flipTestCard() {
+  if (testState.flipped) return; // already flipped, don't re-trigger
+  testState.flipped = true;
+  document.getElementById('the-test-card').classList.add('flipped');
+
+  // Reveal rating buttons
+  const actions = document.getElementById('test-actions');
+  actions.classList.remove('hidden-until-flip');
+  setTimeout(() => actions.classList.add('revealed'), 50);
+}
+
+function speakTestWord(event) {
+  event.stopPropagation();
+  const word = document.getElementById('tback-word').textContent;
+  const url = `https://translate.google.com/?sl=pl&tl=en&text=${encodeURIComponent(word)}&op=translate`;
+  window.open(url, '_blank');
+}
+
+function rateTestCard(rating) {
+  const card = testState.cards[testState.idx];
+  let xp = 0;
+
+  if (rating === 'easy') {
+    testState.correct++;
+    xp = 15; // bonus XP for test mode
+    // Boost SRS interval since they passed the test
+    updateSRS(card, 'easy');
+  } else if (rating === 'ok') {
+    testState.correct++;
+    xp = 8;
+    updateSRS(card, 'ok');
+  } else {
+    testState.wrong++;
+    xp = 0;
+    testState.missedCards.push(card);
+    // Reset SRS — needs more study
+    updateSRS(card, 'hard');
+  }
+
+  testState.xpEarned += xp;
+  state.xp += xp;
+
+  if (xp > 0) {
+    const pop = document.getElementById('xp-pop');
+    pop.textContent = '+' + xp;
+    pop.classList.add('show');
+    setTimeout(() => pop.classList.remove('show'), 600);
+  }
+
+  testState.idx++;
+  saveState();
+
+  // Brief pause so card flip feels intentional
+  setTimeout(() => renderTestCard(), 120);
+}
+
+function finishTestSession() {
+  const { correct, wrong, cards, xpEarned, missedCards } = testState;
+  const total = cards.length;
+  const pct = Math.round((correct / total) * 100);
+
+  // Update streak
+  const today = new Date().toDateString();
+  if (state.lastStudyDate !== today) {
+    state.streak += 1;
+    state.lastStudyDate = today;
+  }
+  saveState();
+
+  // Emoji & title
+  const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '⭐' : pct >= 50 ? '📚' : '💪';
+  const title = pct >= 90 ? 'Doskonale!' : pct >= 70 ? 'Bardzo dobrze!' : pct >= 50 ? 'Nieźle!' : 'Keep Practising!';
+  const sub = pct >= 90 ? 'Near-perfect! Your Polish is solid.' : pct >= 70 ? 'Great test result!' : 'Every test builds your recall.';
+
+  document.getElementById('tres-emoji').textContent = emoji;
+  document.getElementById('tres-title').textContent = title;
+  document.getElementById('tres-sub').textContent = sub;
+  document.getElementById('tres-correct').textContent = correct;
+  document.getElementById('tres-wrong').textContent = wrong;
+  document.getElementById('tres-xp').textContent = '+' + xpEarned;
+  document.getElementById('tres-pct').textContent = pct + '%';
+
+  // Animate score bar
+  setTimeout(() => {
+    document.getElementById('tres-bar').style.width = pct + '%';
+  }, 100);
+
+  // Tip
+  const tips = [
+    'The words you missed have been flagged — they\'ll come back sooner in study sessions.',
+    'Testing yourself is more effective than re-reading. You\'re training the right way.',
+    'Even 50% on a hard test is valuable — it shows you exactly what to focus on.',
+    'Retrieval practice (this!) produces better long-term retention than passive review.',
+  ];
+  document.getElementById('tres-tip').textContent = tips[Math.floor(Math.random() * tips.length)];
+
+  // Missed words
+  const missedWrap = document.getElementById('tres-missed-wrap');
+  const missedList = document.getElementById('tres-missed-list');
+  if (missedCards.length > 0) {
+    missedWrap.style.display = 'block';
+    missedList.innerHTML = '';
+    missedCards.forEach(w => {
+      const chip = document.createElement('div');
+      chip.style.cssText = 'background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.25);border-radius:10px;padding:6px 12px;font-size:13px;color:#E74C3C;cursor:pointer;';
+      chip.textContent = w.pl + ' — ' + w.en;
+      chip.onclick = () => openWordOverlay({ ...w });
+      missedList.appendChild(chip);
+    });
+    document.getElementById('tres-retest-btn').style.display = 'block';
+  } else {
+    missedWrap.style.display = 'none';
+    document.getElementById('tres-retest-btn').style.display = 'none';
+  }
+
+  showScreen('testresults');
+}
+
+function retestMissed() {
+  if (testState.missedCards.length === 0) return;
+  startTestSession(testState.category, testState.missedCards, testState.isGrand);
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+loadState();
+renderHome();
+
+</script>
+</body>
+</html>
