@@ -1159,14 +1159,9 @@
   <div class="fc-header">
     <button class="back-btn" onclick="confirmExitSession()" style="color:rgba(250,247,242,0.5)">←</button>
     <div class="fc-progress-text" id="fc-progress-text">1 / 10</div>
-    <div class="timer-wrap" id="session-timer">
-      <div class="timer-dot"></div>
-      <span id="timer-display">10:00</span>
-    </div>
+
   </div>
-  <div class="timer-expired-banner" id="timer-banner">
-    ⏱ Time's up! Finish this card then we'll wrap up.
-  </div>
+
   <div class="fc-progress-bar"><div class="fc-progress-fill" id="fc-progress-fill"></div></div>
   <div style="display:flex;justify-content:space-between;padding:6px 24px 0;font-size:12px;color:rgba(250,247,242,0.35);">
     <span id="fc-cat-label">Greetings</span>
@@ -1419,6 +1414,8 @@
   </button>
 </div>
 
+
+
 <!-- ═══ PHRASES SCREEN ═══ -->
 <div id="phrases" class="screen" style="background:var(--cream);">
   <div class="top-bar">
@@ -1527,20 +1524,7 @@
 <!-- XP Pop -->
 <div class="xp-pop" id="xp-pop">+10</div>
 
-<!-- Session Complete Banner -->
-<div id="session-complete-banner" style="
-  position:fixed; top:0; left:0; right:0; z-index:700;
-  background:linear-gradient(135deg, var(--sage), #3d6b55);
-  color:#fff; text-align:center;
-  padding:16px 20px 20px;
-  transform:translateY(-100%);
-  transition:transform 0.5s cubic-bezier(0.34,1.2,0.64,1);
-  box-shadow:0 4px 24px rgba(0,0,0,0.3);
-">
-  <div style="font-size:28px;margin-bottom:4px;">🎉</div>
-  <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;">Session Target Hit!</div>
-  <div style="font-size:14px;opacity:0.85;margin-top:4px;" id="session-banner-sub">You've completed both sessions today. Doskonale!</div>
-</div>
+
 
 <script>
 // ═══════════════════════════════════════════════
@@ -1896,13 +1880,8 @@ function showScreen(id) {
   if (id === 'testpick') document.getElementById('nav-testpick')?.classList.add('active');
   if (id === 'phrases') document.getElementById('nav-phrases')?.classList.add('active');
 
-  // Stop timer only when leaving the study flow entirely (home screen)
-  if (id === 'home') {
-    stopTimer();
-    timerSeconds = SESSION_DURATION;
-    timerExpired = false;
-    document.getElementById('session-timer').classList.remove('urgent');
-  }
+  // Stop timer only when it has naturally expired, not on navigation
+  // Timer persists across all screens for the full session
 
   if (id === 'home') renderHome();
   if (id === 'daily') renderDaily();
@@ -2663,28 +2642,30 @@ function startTimer() {
   clearInterval(timerInterval);
   timerSeconds = SESSION_DURATION;
   timerExpired = false;
-  document.getElementById('timer-banner').classList.remove('show');
-  document.getElementById('session-timer').classList.remove('urgent');
+  // Show top strip
+  const strip = document.getElementById('top-timer-strip');
+  if (strip) strip.style.display = 'flex';
   updateTimerDisplay();
 
   timerInterval = setInterval(() => {
     timerSeconds--;
     updateTimerDisplay();
 
-    // Urgent styling in last 2 minutes
+    // Urgent — last 2 minutes: strip turns red
+    const strip2 = document.getElementById('top-timer-strip');
+    const dot = document.getElementById('top-timer-dot');
+    const disp = document.getElementById('top-timer-display');
     if (timerSeconds <= 120 && timerSeconds > 0) {
-      document.getElementById('session-timer').classList.add('urgent');
+      if (strip2) strip2.style.borderBottomColor = 'rgba(192,57,43,0.4)';
+      if (dot) dot.style.background = '#E74C3C';
+      if (disp) disp.style.color = '#E74C3C';
     }
 
-    // Timer hit zero
     if (timerSeconds <= 0) {
       clearInterval(timerInterval);
+      timerInterval = null;
       timerExpired = true;
-      document.getElementById('timer-banner').classList.add('show');
-      // Hide banner after 4 seconds
-      setTimeout(() => {
-        document.getElementById('timer-banner').classList.remove('show');
-      }, 4000);
+      if (strip2) strip2.style.display = 'none';
     }
   }, 1000);
 }
@@ -2692,20 +2673,36 @@ function startTimer() {
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
+  const strip = document.getElementById('top-timer-strip');
+  if (strip) strip.style.display = 'none';
 }
 
 function showSessionCompleteBanner() {
-  const banner = document.getElementById('session-complete-banner');
-  if (!banner) return;
-  banner.style.transform = 'translateY(0)';
-  setTimeout(() => { banner.style.transform = 'translateY(-100%)'; }, 4500);
+  // Show congratulations modal
+  const overlay = document.getElementById('congrats-overlay');
+  if (overlay) overlay.style.display = 'flex';
+}
+
+function closeCongratsAndContinue() {
+  const overlay = document.getElementById('congrats-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function closeCongratsAndHome() {
+  const overlay = document.getElementById('congrats-overlay');
+  if (overlay) overlay.style.display = 'none';
+  stopTimer();
+  timerSeconds = SESSION_DURATION;
+  timerExpired = false;
+  showScreen('home');
 }
 
 function updateTimerDisplay() {
   const m = Math.max(0, Math.floor(timerSeconds / 60));
   const s = Math.max(0, timerSeconds % 60);
-  document.getElementById('timer-display').textContent =
-    `${m}:${s.toString().padStart(2, '0')}`;
+  const text = m + ':' + s.toString().padStart(2, '0');
+  const d = document.getElementById('top-timer-display');
+  if (d) d.textContent = text;
 }
 
 function confirmExitSession() {
@@ -2937,6 +2934,68 @@ renderHome();
 
 </script>
 
+
+<!-- ═══ TOP TIMER STRIP ═══ -->
+<div id="top-timer-strip" style="
+  display:none;
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:800;
+  background:var(--ink);
+  border-bottom:1px solid rgba(200,168,75,0.2);
+  padding:10px 20px;
+  text-align:center;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+">
+  <div id="top-timer-dot" style="width:7px;height:7px;border-radius:50%;background:var(--sage);animation:timerPulse 1s ease-in-out infinite;flex-shrink:0;"></div>
+  <span style="font-size:13px;color:rgba(250,247,242,0.5);font-weight:500;letter-spacing:0.5px;">Session</span>
+  <span id="top-timer-display" style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:1px;">10:00</span>
+  <span style="font-size:13px;color:rgba(250,247,242,0.5);font-weight:500;letter-spacing:0.5px;">remaining</span>
+</div>
+
+<!-- ═══ CONGRATULATIONS MODAL ═══ -->
+<div id="congrats-overlay" style="
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(26,17,8,0.85);
+  backdrop-filter:blur(8px);
+  z-index:900;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+">
+  <div style="
+    background:linear-gradient(145deg,#1E1408,#2A1C10);
+    border:1px solid rgba(200,168,75,0.3);
+    border-radius:28px;
+    padding:36px 28px;
+    text-align:center;
+    width:100%;
+    max-width:380px;
+    animation:slideUp 0.4s cubic-bezier(0.34,1.2,0.64,1);
+  ">
+    <div style="font-size:60px;margin-bottom:12px;">🎉</div>
+    <div style="font-family:'Playfair Display',serif;font-size:32px;color:var(--cream);margin-bottom:8px;">Doskonale!</div>
+    <div style="font-size:16px;color:var(--gold);font-weight:600;margin-bottom:8px;">Session Target Hit!</div>
+    <div style="font-size:14px;color:rgba(250,247,242,0.55);line-height:1.6;margin-bottom:24px;">You've completed both sessions today.<br>Your Polish is growing — keep it up! 🇵🇱</div>
+    <div style="display:flex;gap:10px;flex-direction:column;">
+      <button onclick="closeCongratsAndContinue()" style="
+        background:var(--gold);color:var(--ink);
+        border:none;border-radius:16px;
+        padding:15px;font-size:16px;font-weight:700;
+        font-family:'DM Sans',sans-serif;cursor:pointer;
+      ">Keep Going 💪</button>
+      <button onclick="closeCongratsAndHome()" style="
+        background:rgba(250,247,242,0.07);color:rgba(250,247,242,0.6);
+        border:1px solid rgba(250,247,242,0.12);border-radius:16px;
+        padding:13px;font-size:15px;font-weight:500;
+        font-family:'DM Sans',sans-serif;cursor:pointer;
+      ">I'm done for today</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
