@@ -1445,20 +1445,46 @@
       <div class="flashcard-inner" id="phrase-card-inner">
         <div class="card-face card-front" id="phrase-front">
           <div class="card-category-tag" id="pfront-cat">Alicja & Family</div>
-          <div class="card-word" id="pfront-en" style="font-size:28px;">I am learning Polish</div>
-          <div class="tap-hint">↩ tap to reveal Polish</div>
+          <div class="card-word" id="pfront-pl" style="font-size:26px;">Uczę się polskiego</div>
+          <div class="card-phonetic" id="pfront-ph" style="margin-top:6px;">[OO-cheh sheh pol-SKYE-go]</div>
+          <div class="tap-hint">↩ tap to reveal meaning</div>
         </div>
         <div class="card-face card-back" id="phrase-back">
           <div class="card-category-tag" id="pback-cat">Alicja & Family</div>
           <button class="sound-btn" onclick="speakPhrase(event)">🔊</button>
-          <div class="card-translation" id="pback-en" style="font-size:20px;color:var(--cream);text-align:center;margin-bottom:8px;">I am learning Polish</div>
-          <div class="card-word" id="pback-pl" style="font-size:26px;color:var(--gold);">Uczę się polskiego</div>
+          <div class="card-word" id="pback-en" style="font-size:24px;">I am learning Polish</div>
+          <div class="card-translation" id="pback-pl" style="font-size:18px;color:var(--gold);margin-top:6px;">Uczę się polskiego</div>
           <div class="card-phonetic" id="pback-ph">[OO-cheh sheh pol-SKYE-go]</div>
           <div class="card-example" id="pback-note"></div>
         </div>
       </div>
     </div>
     <p class="fc-tip" id="pfc-tip">💡 Try saying it aloud before tapping</p>
+    <div style="display:flex;gap:12px;margin-top:14px;width:100%;max-width:380px;justify-content:space-between;">
+      <button id="btn-prev-phrase" onclick="prevPhraseCard()" style="
+        flex:1;
+        background:rgba(250,247,242,0.07);
+        border:1px solid rgba(250,247,242,0.08);
+        border-radius:14px;padding:12px;
+        font-size:15px;font-weight:600;
+        font-family:'DM Sans',sans-serif;
+        color:rgba(250,247,242,0.25);
+        cursor:pointer;
+        opacity:0.25;pointer-events:none;
+        display:flex;align-items:center;justify-content:center;gap:6px;
+      ">← Back</button>
+      <button id="btn-next-phrase" onclick="skipPhraseCard()" style="
+        flex:1;
+        background:rgba(250,247,242,0.07);
+        border:1px solid rgba(250,247,242,0.3);
+        border-radius:14px;padding:12px;
+        font-size:15px;font-weight:600;
+        font-family:'DM Sans',sans-serif;
+        color:#fff;
+        cursor:pointer;
+        display:flex;align-items:center;justify-content:center;gap:6px;
+      ">Skip →</button>
+    </div>
   </div>
 
   <div class="fc-actions hidden-until-flip" id="phrase-actions">
@@ -1490,6 +1516,100 @@
   </div>
   <button class="btn-primary" onclick="showScreen('phrases')" style="max-width:380px;background:var(--sage);">More Phrases</button>
   <button class="btn-secondary" onclick="showScreen('home')" style="max-width:380px;color:rgba(250,247,242,0.5);border-color:rgba(250,247,242,0.1);margin-top:10px;">Home</button>
+</div>
+
+<!-- ═══ PHRASE TEST CARD SCREEN ═══ -->
+<div id="phrasetest" class="screen" style="background:var(--ink);">
+  <div class="fc-header">
+    <button class="back-btn" onclick="confirmExitSession()" style="color:rgba(250,247,242,0.5)">←</button>
+    <div class="fc-progress-text" id="ptfc-progress-text">1 / 8</div>
+    <div style="font-size:13px;color:var(--sage-light)" id="ptfc-set-label">Alicja & Family</div>
+  </div>
+  <div class="fc-progress-bar" style="background:rgba(255,255,255,0.06);">
+    <div class="fc-progress-fill" id="ptfc-progress-fill" style="background:var(--sage);"></div>
+  </div>
+
+  <div style="display:flex;justify-content:center;padding:10px 24px 0;">
+    <div class="test-score-pill">
+      <span>✅ <span id="pt-correct-count">0</span></span>
+      <span>❌ <span id="pt-wrong-count">0</span></span>
+      <span style="color:rgba(138,175,155,0.5);font-weight:400;">remaining: <span id="pt-remaining">8</span></span>
+    </div>
+  </div>
+
+  <div class="card-arena">
+    <div class="flashcard" id="phrase-test-card" onclick="flipPhraseTestCard()">
+      <div class="flashcard-inner" id="phrase-test-card-inner">
+
+        <!-- FRONT: English sentence -->
+        <div class="card-face test-card-front" id="pt-front">
+          <div class="card-category-tag" id="ptfront-cat">Alicja & Family</div>
+          <div class="card-word" id="ptfront-en" style="font-size:24px;">I am learning Polish</div>
+          <div class="card-phonetic" style="color:rgba(138,175,155,0.4);margin-top:8px;">tap to reveal Polish →</div>
+          <div class="tap-hint" style="color:rgba(138,175,155,0.5);">↩ tap card</div>
+        </div>
+
+        <!-- BACK: Polish reveal -->
+        <div class="card-face test-card-back" id="pt-back">
+          <div class="card-category-tag" id="ptback-cat">Alicja & Family</div>
+          <button class="sound-btn" onclick="speakPhraseTest(event)">🔊</button>
+          <div class="card-word" id="ptback-pl" style="font-size:24px;color:var(--gold);">Uczę się polskiego</div>
+          <div class="card-phonetic" id="ptback-ph">[OO-cheh sheh pol-SKYE-go]</div>
+          <div class="card-translation" id="ptback-en" style="color:var(--warm-gray);font-size:15px;">I am learning Polish</div>
+          <div class="card-example" id="ptback-note"></div>
+          <div class="tap-hint" style="color:rgba(92,122,106,0.5);">How well did you know it?</div>
+        </div>
+
+      </div>
+    </div>
+    <p class="fc-tip" id="ptfc-tip">💡 Say the full sentence aloud before flipping</p>
+    <div style="display:flex;gap:12px;margin-top:14px;width:100%;max-width:380px;justify-content:space-between;">
+      <button id="btn-prev-ptest" onclick="prevPhraseTestCard()" style="
+        flex:1;background:rgba(250,247,242,0.07);border:1px solid rgba(250,247,242,0.08);
+        border-radius:14px;padding:12px;font-size:15px;font-weight:600;
+        font-family:'DM Sans',sans-serif;color:rgba(250,247,242,0.25);
+        cursor:pointer;opacity:0.25;pointer-events:none;
+        display:flex;align-items:center;justify-content:center;gap:6px;
+      ">← Back</button>
+      <button id="btn-next-ptest" onclick="skipPhraseTestCard()" style="
+        flex:1;background:rgba(250,247,242,0.07);border:1px solid rgba(250,247,242,0.3);
+        border-radius:14px;padding:12px;font-size:15px;font-weight:600;
+        font-family:'DM Sans',sans-serif;color:#fff;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;gap:6px;
+      ">Skip →</button>
+    </div>
+  </div>
+
+  <div class="fc-actions hidden-until-flip" id="phrase-test-actions">
+    <button class="rating-btn btn-hard" onclick="ratePhraseTestCard('hard')">
+      <span class="rb-icon">❌</span>Didn't know
+    </button>
+    <button class="rating-btn btn-ok" onclick="ratePhraseTestCard('ok')">
+      <span class="rb-icon">🤔</span>Almost
+    </button>
+    <button class="rating-btn btn-easy" onclick="ratePhraseTestCard('easy')">
+      <span class="rb-icon">✅</span>Knew it!
+    </button>
+  </div>
+</div>
+
+<!-- ═══ PHRASE TEST RESULTS ═══ -->
+<div id="phrasetestresults" class="screen" style="background:var(--ink);align-items:center;justify-content:center;padding:40px 28px;text-align:center;">
+  <div class="result-star" id="ptres-emoji">🧪</div>
+  <h2 class="result-title" id="ptres-title">Test Complete!</h2>
+  <p class="result-sub" id="ptres-sub">Here's how you did</p>
+  <div class="result-stats">
+    <div class="rs-box"><div class="rs-num" id="ptres-correct">0</div><div class="rs-label">Correct</div></div>
+    <div class="rs-box"><div class="rs-num" id="ptres-xp">+0</div><div class="rs-label">XP</div></div>
+    <div class="rs-box"><div class="rs-num" id="ptres-pct">0%</div><div class="rs-label">Score</div></div>
+  </div>
+  <div class="technique-tip" style="width:100%;margin-bottom:24px;">
+    <div class="tt-title">🧪 Test Insight</div>
+    <div class="tt-text" id="ptres-tip">Recall is harder than recognition — that's exactly why testing works.</div>
+  </div>
+  <button class="btn-primary" onclick="retestMissedPhrases()" id="ptres-retest-btn" style="max-width:380px;background:var(--sage);display:none;">🔁 Retest Missed Phrases</button>
+  <button class="btn-primary" onclick="showScreen('phrases')" style="max-width:380px;background:var(--red);margin-top:10px;">📅 Back to Phrases</button>
+  <button class="btn-secondary" onclick="showScreen('home')" style="max-width:380px;color:rgba(250,247,242,0.5);border-color:rgba(250,247,242,0.1);margin-top:8px;">Home</button>
 </div>
 
 <!-- ═══ WORD DETAIL OVERLAY ═══ -->
@@ -2031,7 +2151,14 @@ function startSession(cat) {
 }
 
 function renderCard() {
+  // Session continues until the 10-minute timer expires — not until deck runs out
+  if (timerExpired) {
+    finishSession();
+    return;
+  }
+
   if (state.sessionIdx >= state.sessionCards.length) {
+    // Recycle hard cards back into the deck if any
     if (state.hardCards && state.hardCards.length > 0) {
       const recycled = [...state.hardCards];
       state.hardCards = [];
@@ -2041,8 +2168,23 @@ function renderCard() {
       }
       state.sessionCards = [...state.sessionCards, ...recycled];
     } else {
-      finishSession();
-      return;
+      // Deck exhausted but time remains — loop back through the same category
+      // so the user keeps practising until the timer runs out
+      const cat = state.currentCategory;
+      if (cat) {
+        let freshCards = cat.words.map(w => ({ ...w, category: cat, isNew: false }));
+        const ORDERED_CATS = ['numbers', 'days', 'months', 'time'];
+        if (!ORDERED_CATS.includes(cat.id)) {
+          for (let i = freshCards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [freshCards[i], freshCards[j]] = [freshCards[j], freshCards[i]];
+          }
+        }
+        state.sessionCards = [...state.sessionCards, ...freshCards];
+      } else {
+        finishSession();
+        return;
+      }
     }
   }
 
@@ -2666,6 +2808,18 @@ function startTimer() {
       timerInterval = null;
       timerExpired = true;
       if (strip2) strip2.style.display = 'none';
+      // If currently mid-session, finish gracefully right away rather than
+      // waiting for the next card transition (deck now loops indefinitely)
+      const flashcardScreen = document.getElementById('flashcard');
+      const phrasecardScreen = document.getElementById('phrasecard');
+      const phrasetestScreen = document.getElementById('phrasetest');
+      if (flashcardScreen && flashcardScreen.classList.contains('active')) {
+        finishSession();
+      } else if (phrasecardScreen && phrasecardScreen.classList.contains('active')) {
+        finishPhraseSession();
+      } else if (phrasetestScreen && phrasetestScreen.classList.contains('active')) {
+        finishPhraseTestSession();
+      }
     }
   }, 1000);
 }
@@ -2820,15 +2974,29 @@ function renderPhrases() {
     const total = set.phrases.length;
     const div = document.createElement('div');
     div.className = 'category-card';
+    div.style.flexDirection = 'column';
+    div.style.alignItems = 'stretch';
+    div.style.cursor = 'default';
     div.innerHTML = `
-      <div class="cat-icon" style="background:${set.color}30;border:1px solid ${set.color}80">${set.icon}</div>
-      <div class="cat-info">
-        <div class="cat-name">${set.name}</div>
-        <div class="cat-meta">${studied > 0 ? studied+'/'+total+' practised' : total+' phrases · Start now'}</div>
-        <div class="mini-bar"><div class="mini-bar-fill" style="width:${(studied/total)*100}%;background:${set.accent}"></div></div>
+      <div style="display:flex;align-items:center;gap:12px;cursor:pointer;" id="set-learn-${set.id}">
+        <div class="cat-icon" style="background:${set.color}30;border:1px solid ${set.color}80">${set.icon}</div>
+        <div class="cat-info">
+          <div class="cat-name">${set.name}</div>
+          <div class="cat-meta">${studied > 0 ? studied+'/'+total+' practised' : total+' phrases · Start now'}</div>
+          <div class="mini-bar"><div class="mini-bar-fill" style="width:${(studied/total)*100}%;background:${set.accent}"></div></div>
+        </div>
+        <div class="cat-status">${studied >= total ? '✅' : studied > 0 ? '▶️' : '🆕'}</div>
       </div>
-      <div class="cat-status">${studied >= total ? '✅' : studied > 0 ? '▶️' : '🆕'}</div>`;
-    div.onclick = () => startPhraseSession(set);
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button id="set-test-${set.id}" style="
+          flex:1;background:rgba(92,122,106,0.1);border:1px solid rgba(92,122,106,0.3);
+          border-radius:10px;padding:9px;font-size:13px;font-weight:600;
+          color:var(--sage);cursor:pointer;font-family:'DM Sans',sans-serif;
+          ${studied === 0 ? 'opacity:0.4;pointer-events:none;' : ''}
+        ">🧪 Test This Set</button>
+      </div>`;
+    div.querySelector('#set-learn-' + set.id).onclick = () => startPhraseSession(set);
+    div.querySelector('#set-test-' + set.id).onclick = (e) => { e.stopPropagation(); startPhraseTest(set); };
     list.appendChild(div);
   });
 }
@@ -2839,13 +3007,21 @@ function startPhraseSession(set) {
     const j = Math.floor(Math.random() * (i + 1));
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
-  phraseState = { cards, idx:0, correct:0, xpEarned:0, setId:set.id, setName:set.name, setIcon:set.icon };
+  phraseState = { cards, idx:0, correct:0, xpEarned:0, setId:set.id, setName:set.name, setIcon:set.icon, history:[] };
   document.getElementById('pfc-set-label').textContent = set.icon + ' ' + set.name;
   showScreen('phrasecard');
+
+  // Same session timer as flashcard study — persists across categories AND phrases
+  if (!timerInterval && !timerExpired) {
+    startTimer();
+  }
+
   renderPhraseCard();
 }
 
 function renderPhraseCard() {
+  // Same timer-driven session as flashcard study
+  if (timerExpired) { finishPhraseSession(); return; }
   if (phraseState.idx >= phraseState.cards.length) { finishPhraseSession(); return; }
   const card = phraseState.cards[phraseState.idx];
   const total = phraseState.cards.length;
@@ -2854,7 +3030,8 @@ function renderPhraseCard() {
   document.getElementById('pfc-progress-text').textContent = (idx+1) + ' / ' + total;
   document.getElementById('pfc-progress-fill').style.width = ((idx/total)*100) + '%';
   document.getElementById('pfront-cat').textContent = phraseState.setIcon + ' ' + phraseState.setName;
-  document.getElementById('pfront-en').textContent = card.en;
+  document.getElementById('pfront-pl').textContent = card.pl;
+  document.getElementById('pfront-ph').textContent = '[' + card.ph + ']';
   document.getElementById('pback-cat').textContent = phraseState.setIcon + ' ' + phraseState.setName;
   document.getElementById('pback-en').textContent = card.en;
   document.getElementById('pback-pl').textContent = card.pl;
@@ -2873,6 +3050,36 @@ function renderPhraseCard() {
   const actions = document.getElementById('phrase-actions');
   actions.classList.remove('revealed');
   actions.classList.add('hidden-until-flip');
+
+  // Update back/skip button states
+  const prevBtn = document.getElementById('btn-prev-phrase');
+  if (prevBtn) {
+    const hasPrev = phraseState.history && phraseState.history.length > 0;
+    prevBtn.style.opacity = hasPrev ? '1' : '0.25';
+    prevBtn.style.pointerEvents = hasPrev ? 'auto' : 'none';
+    prevBtn.style.color = hasPrev ? '#fff' : 'rgba(250,247,242,0.25)';
+    prevBtn.style.borderColor = hasPrev ? 'rgba(250,247,242,0.3)' : 'rgba(250,247,242,0.08)';
+  }
+}
+
+function prevPhraseCard() {
+  if (!phraseState.history || phraseState.history.length === 0) return;
+  const prev = phraseState.history.pop();
+  phraseState.idx = prev.idx;
+  renderPhraseCard();
+}
+
+function skipPhraseCard() {
+  if (!phraseState.history) phraseState.history = [];
+  phraseState.history.push({ idx: phraseState.idx });
+  if (phraseState.history.length > 10) phraseState.history.shift();
+  if (phraseState.idx < phraseState.cards.length - 1) {
+    phraseState.idx++;
+  } else {
+    finishPhraseSession();
+    return;
+  }
+  renderPhraseCard();
 }
 
 function flipPhraseCard() {
@@ -2904,6 +3111,12 @@ function ratePhraseCard(rating) {
     pop.classList.add('show');
     setTimeout(() => pop.classList.remove('show'), 600);
   }
+
+  // Save to history before advancing
+  if (!phraseState.history) phraseState.history = [];
+  phraseState.history.push({ idx: phraseState.idx });
+  if (phraseState.history.length > 10) phraseState.history.shift();
+
   phraseState.idx++;
   saveState();
   renderPhraseCard();
@@ -2925,6 +3138,195 @@ function finishPhraseSession() {
   document.getElementById('pres-streak').textContent = state.streak+'🔥';
   document.getElementById('pres-tip').textContent = PHRASE_TIPS[Math.floor(Math.random()*PHRASE_TIPS.length)];
   showScreen('phraseresults');
+}
+
+// ════════════════════════════════════════════
+// PHRASE TEST MODE — English shown first, recall the Polish
+// ════════════════════════════════════════════
+let phraseTestState = { cards:[], idx:0, correct:0, wrong:0, xpEarned:0, missedCards:[], setId:null, setName:'', setIcon:'', history:[], flipped:false };
+
+function startPhraseTest(set) {
+  const cards = [...set.phrases];
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  phraseTestState = {
+    cards, idx:0, correct:0, wrong:0, xpEarned:0, missedCards:[],
+    setId:set.id, setName:set.name, setIcon:set.icon, history:[], flipped:false
+  };
+  document.getElementById('ptfc-set-label').textContent = set.icon + ' ' + set.name;
+  showScreen('phrasetest');
+
+  // Same session timer as everything else
+  if (!timerInterval && !timerExpired) {
+    startTimer();
+  }
+
+  renderPhraseTestCard();
+}
+
+function renderPhraseTestCard() {
+  if (timerExpired) { finishPhraseTestSession(); return; }
+  const { cards, idx } = phraseTestState;
+  if (idx >= cards.length) { finishPhraseTestSession(); return; }
+
+  const card = cards[idx];
+  phraseTestState.flipped = false;
+
+  // Snap to front instantly
+  const theCard = document.getElementById('phrase-test-card');
+  const inner = document.getElementById('phrase-test-card-inner');
+  inner.style.transition = 'none';
+  inner.style.transform = '';
+  theCard.classList.remove('flipped');
+  void inner.offsetWidth;
+  inner.style.transition = '';
+
+  document.getElementById('ptfc-progress-text').textContent = (idx+1) + ' / ' + cards.length;
+  document.getElementById('ptfc-progress-fill').style.width = ((idx/cards.length)*100) + '%';
+  document.getElementById('ptfront-cat').textContent = phraseTestState.setIcon + ' ' + phraseTestState.setName;
+  document.getElementById('ptfront-en').textContent = card.en;
+  document.getElementById('ptback-cat').textContent = phraseTestState.setIcon + ' ' + phraseTestState.setName;
+  document.getElementById('ptback-pl').textContent = card.pl;
+  document.getElementById('ptback-ph').textContent = '[' + card.ph + ']';
+  document.getElementById('ptback-en').textContent = card.en;
+  document.getElementById('ptback-note').textContent = card.note || '';
+
+  document.getElementById('pt-correct-count').textContent = phraseTestState.correct;
+  document.getElementById('pt-wrong-count').textContent = phraseTestState.wrong;
+  document.getElementById('pt-remaining').textContent = cards.length - idx;
+
+  document.getElementById('ptfc-tip').textContent = '💡 ' + PHRASE_TIPS[idx % PHRASE_TIPS.length];
+
+  const actions = document.getElementById('phrase-test-actions');
+  actions.classList.remove('revealed');
+  actions.classList.add('hidden-until-flip');
+
+  // Back button state
+  const prevBtn = document.getElementById('btn-prev-ptest');
+  if (prevBtn) {
+    const hasPrev = phraseTestState.history && phraseTestState.history.length > 0;
+    prevBtn.style.opacity = hasPrev ? '1' : '0.25';
+    prevBtn.style.pointerEvents = hasPrev ? 'auto' : 'none';
+    prevBtn.style.color = hasPrev ? '#fff' : 'rgba(250,247,242,0.25)';
+    prevBtn.style.borderColor = hasPrev ? 'rgba(250,247,242,0.3)' : 'rgba(250,247,242,0.08)';
+  }
+}
+
+function flipPhraseTestCard() {
+  if (phraseTestState.flipped) return;
+  phraseTestState.flipped = true;
+  document.getElementById('phrase-test-card').classList.add('flipped');
+  const actions = document.getElementById('phrase-test-actions');
+  actions.classList.remove('hidden-until-flip');
+  setTimeout(() => actions.classList.add('revealed'), 50);
+}
+
+function speakPhraseTest(event) {
+  event.stopPropagation();
+  const text = document.getElementById('ptback-pl').textContent;
+  const url = 'https://translate.google.com/?sl=pl&tl=en&text=' + encodeURIComponent(text) + '&op=translate';
+  const a = document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function prevPhraseTestCard() {
+  if (!phraseTestState.history || phraseTestState.history.length === 0) return;
+  const prev = phraseTestState.history.pop();
+  phraseTestState.idx = prev.idx;
+  renderPhraseTestCard();
+}
+
+function skipPhraseTestCard() {
+  if (!phraseTestState.history) phraseTestState.history = [];
+  phraseTestState.history.push({ idx: phraseTestState.idx });
+  if (phraseTestState.history.length > 10) phraseTestState.history.shift();
+  phraseTestState.idx++;
+  renderPhraseTestCard();
+}
+
+function ratePhraseTestCard(rating) {
+  const card = phraseTestState.cards[phraseTestState.idx];
+  let xp = 0;
+
+  if (rating === 'easy') {
+    phraseTestState.correct++;
+    xp = 15;
+  } else if (rating === 'ok') {
+    phraseTestState.correct++;
+    xp = 8;
+  } else {
+    phraseTestState.wrong++;
+    phraseTestState.missedCards.push(card);
+  }
+
+  phraseTestState.xpEarned += xp;
+  state.xp += xp;
+
+  if (xp > 0) {
+    const pop = document.getElementById('xp-pop');
+    pop.textContent = '+' + xp;
+    pop.classList.add('show');
+    setTimeout(() => pop.classList.remove('show'), 600);
+  }
+
+  if (!phraseTestState.history) phraseTestState.history = [];
+  phraseTestState.history.push({ idx: phraseTestState.idx });
+  if (phraseTestState.history.length > 10) phraseTestState.history.shift();
+
+  phraseTestState.idx++;
+  saveState();
+  setTimeout(() => renderPhraseTestCard(), 120);
+}
+
+function finishPhraseTestSession() {
+  const { correct, wrong, cards, xpEarned, missedCards, setId } = phraseTestState;
+  const total = cards.length;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  if (!state.phraseStatus) state.phraseStatus = {};
+  state.phraseStatus[setId] = Math.max(state.phraseStatus[setId] || 0, correct);
+
+  const today = new Date().toDateString();
+  if (state.lastStudyDate !== today) { state.streak += 1; state.lastStudyDate = today; }
+  saveState();
+
+  document.getElementById('ptres-emoji').textContent = pct>=80?'🏆':pct>=50?'💬':'📚';
+  document.getElementById('ptres-title').textContent = pct>=80?'Excellent Recall!':pct>=50?'Good Progress!':'Keep Practising!';
+  document.getElementById('ptres-sub').textContent = pct>=80?'You really know these phrases!':'Recall takes practice — you\'re building it.';
+  document.getElementById('ptres-correct').textContent = correct + '/' + total;
+  document.getElementById('ptres-xp').textContent = '+' + xpEarned;
+  document.getElementById('ptres-pct').textContent = pct + '%';
+
+  const tips = [
+    'Recall is harder than recognition — that\'s exactly why testing works.',
+    'Missed phrases just need a few more reps — that\'s completely normal.',
+    'Try saying any missed phrases out loud right now, three times each.',
+  ];
+  document.getElementById('ptres-tip').textContent = tips[Math.floor(Math.random()*tips.length)];
+
+  const retestBtn = document.getElementById('ptres-retest-btn');
+  if (missedCards && missedCards.length > 0) {
+    retestBtn.style.display = 'block';
+    retestBtn.textContent = `🔁 Retest ${missedCards.length} Missed Phrase${missedCards.length>1?'s':''}`;
+  } else {
+    retestBtn.style.display = 'none';
+  }
+
+  showScreen('phrasetestresults');
+}
+
+function retestMissedPhrases() {
+  const missed = phraseTestState.missedCards;
+  if (!missed || missed.length === 0) { showScreen('phrases'); return; }
+  phraseTestState = {
+    cards: [...missed], idx:0, correct:0, wrong:0, xpEarned:0, missedCards:[],
+    setId: phraseTestState.setId, setName: phraseTestState.setName, setIcon: phraseTestState.setIcon,
+    history:[], flipped:false
+  };
+  showScreen('phrasetest');
+  renderPhraseTestCard();
 }
 
 // ════════════════════════════════════════════
